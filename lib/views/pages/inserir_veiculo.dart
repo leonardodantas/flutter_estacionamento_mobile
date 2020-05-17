@@ -1,17 +1,18 @@
-import 'package:estacionamentodigital/pages/inserir_cartao.dart';
+import 'dart:ui';
+import 'package:estacionamentodigital/views/pages/dono_veiculo.dart';
 import 'package:flutter/material.dart';
 
-class DonoVeiculoPage extends StatefulWidget {
+class InserirVeiculoPage extends StatefulWidget {
   @override
-  _DonoVeiculoPageState createState() => _DonoVeiculoPageState();
+  _InserirVeiculoPageState createState() => _InserirVeiculoPageState();
 }
 
-class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
+class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Dono do Veiculo"),
+          title: Text("Identificação do Veiculo"),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -23,63 +24,38 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                 height: 60,
               ),
               Image.asset(
-                'assets/users.png',
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                padding: EdgeInsets.all(15),
-                child: TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: "Nome",
-                    fillColor: Colors.white,
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(25.0),
-                      borderSide: new BorderSide(),
-                    ),
-                    //fillColor: Colors.green
-                  ),
-                  validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  style: new TextStyle(
-                    fontFamily: "Poppins",
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(15),
-                child: TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: "CPF",
-                    fillColor: Colors.white,
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(25.0),
-                      borderSide: new BorderSide(),
-                    ),
-                    //fillColor: Colors.green
-                  ),
-                  validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  style: new TextStyle(
-                    fontFamily: "Poppins",
-                  ),
-                ),
+                'assets/car.png',
               ),
               SizedBox(
                 height: 60,
+              ),
+              Container(
+                padding: EdgeInsets.all(15),
+                child: TextFormField(
+                  decoration: new InputDecoration(
+                    labelText: "Placa do Veiculo",
+                    fillColor: Colors.white,
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(),
+                    ),
+                    //fillColor: Colors.green
+                  ),
+                  validator: (val) {
+                    if (val.length == 0) {
+                      return "Email cannot be empty";
+                    } else {
+                      return null;
+                    }
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: new TextStyle(
+                    fontFamily: "Poppins",
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 150,
               ),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -96,7 +72,7 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          Navigator.pop(context);
                         },
                         shape: StadiumBorder(),
                       ),
@@ -114,7 +90,7 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=> InserirCartao()));
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> DonoVeiculoPage()));
                         },
                         shape: StadiumBorder(),
                       ),
@@ -125,6 +101,5 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
             ],
           ),
         ));
-
   }
 }

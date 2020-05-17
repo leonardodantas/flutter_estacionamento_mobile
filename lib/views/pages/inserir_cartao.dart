@@ -1,4 +1,4 @@
-import 'package:estacionamentodigital/pages/finalizar.dart';
+import 'package:estacionamentodigital/views/pages/finalizar.dart';
 import 'package:flutter/material.dart';
 
 class InserirCartao extends StatefulWidget {

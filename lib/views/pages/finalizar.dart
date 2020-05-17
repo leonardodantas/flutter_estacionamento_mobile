@@ -1,19 +1,17 @@
-import 'dart:ui';
-
-import 'package:estacionamentodigital/pages/dono_veiculo.dart';
+import 'package:estacionamentodigital/views/pages/sucesso_comprar_cartao.dart';
 import 'package:flutter/material.dart';
 
-class InserirVeiculoPage extends StatefulWidget {
+class FinalizarCompra extends StatefulWidget {
   @override
-  _InserirVeiculoPageState createState() => _InserirVeiculoPageState();
+  _FinalizarCompraState createState() => _FinalizarCompraState();
 }
 
-class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
+class _FinalizarCompraState extends State<FinalizarCompra> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Identificação do Veiculo"),
+          title: Text("Finalizar Compra"),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -25,16 +23,66 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                 height: 60,
               ),
               Image.asset(
-                'assets/car.png',
+                'assets/cart.png',
               ),
               SizedBox(
-                height: 60,
+                height: 30,
               ),
               Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
-                    labelText: "Placa do Veiculo",
+                    labelText: "Placa Veiculo",
+                    fillColor: Colors.white,
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(),
+                    ),
+                    //fillColor: Colors.green
+                  ),
+                  validator: (val) {
+                    if (val.length == 0) {
+                      return "Email cannot be empty";
+                    } else {
+                      return null;
+                    }
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: new TextStyle(
+                    fontFamily: "Poppins",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(15),
+                child: TextFormField(
+                  decoration: new InputDecoration(
+                    labelText: "Nome",
+                    fillColor: Colors.white,
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(),
+                    ),
+                    //fillColor: Colors.green
+                  ),
+                  validator: (val) {
+                    if (val.length == 0) {
+                      return "Email cannot be empty";
+                    } else {
+                      return null;
+                    }
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: new TextStyle(
+                    fontFamily: "Poppins",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(15),
+                child: TextFormField(
+                  decoration: new InputDecoration(
+                    labelText: "CPF",
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -56,7 +104,7 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                 ),
               ),
               SizedBox(
-                height: 150,
+                height: 60,
               ),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -73,7 +121,7 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                         },
                         shape: StadiumBorder(),
                       ),
@@ -87,11 +135,11 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Proximo",
+                              child: Text("Finalizar",
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=> DonoVeiculoPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> SucessoComprarCartaoPage()));
                         },
                         shape: StadiumBorder(),
                       ),

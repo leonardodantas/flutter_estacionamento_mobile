@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "331468786449",
+    "firebase_url": "https://estacionamentovirtual.firebaseio.com",
+    "project_id": "estacionamentovirtual",
+    "storage_bucket": "estacionamentovirtual.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331468786449:android:607767e07e789723db5ab0",
+        "android_client_info": {
+          "package_name": "com.dantas.estacionamento.estacionamentodigital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331468786449-b6paborf0judpedcfdtjaqgc4too6l2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5ASorVX8K_5fluK1EEpM80ZhVi_nb8bw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331468786449-b6paborf0judpedcfdtjaqgc4too6l2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

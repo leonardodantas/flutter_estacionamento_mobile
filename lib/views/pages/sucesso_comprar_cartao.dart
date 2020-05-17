@@ -1,4 +1,4 @@
-import 'package:estacionamentodigital/pages/inicio.dart';
+import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:flutter/material.dart';
 
 class SucessoComprarCartaoPage extends StatefulWidget {

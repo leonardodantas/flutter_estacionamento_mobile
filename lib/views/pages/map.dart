@@ -1,5 +1,5 @@
 import 'package:estacionamentodigital/controllers/map.dart';
-import 'package:estacionamentodigital/widgets/floating_action.dart';
+import 'package:estacionamentodigital/views/widgets/floating_action.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';

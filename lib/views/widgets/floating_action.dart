@@ -1,6 +1,5 @@
-import 'package:awesome_dialog/animated_button.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:estacionamentodigital/pages/compra.dart';
+import 'package:estacionamentodigital/views/pages/compra.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 

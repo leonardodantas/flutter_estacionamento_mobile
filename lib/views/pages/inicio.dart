@@ -1,10 +1,9 @@
 import 'package:estacionamentodigital/controllers/map.dart';
-import 'package:estacionamentodigital/pages/map.dart';
-import 'package:estacionamentodigital/widgets/loading.dart';
+import 'package:estacionamentodigital/views/pages/map.dart';
+import 'package:estacionamentodigital/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class InicioPage extends StatefulWidget {
   final Key _mapKey = UniqueKey();
