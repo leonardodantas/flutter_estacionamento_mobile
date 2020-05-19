@@ -13,42 +13,39 @@ mixin _$MapController on MapControllerBase, Store {
 
   @override
   CARREGAMENTOINICIAL get estadoCarregamento =>
-      (_$estadoCarregamentoComputed ??=
-              Computed<CARREGAMENTOINICIAL>(() => super.estadoCarregamento))
+      (_$estadoCarregamentoComputed ??= Computed<CARREGAMENTOINICIAL>(
+              () => super.estadoCarregamento,
+              name: 'MapControllerBase.estadoCarregamento'))
           .value;
 
   final _$longitudeAtom = Atom(name: 'MapControllerBase.longitude');
 
   @override
   double get longitude {
-    _$longitudeAtom.context.enforceReadPolicy(_$longitudeAtom);
-    _$longitudeAtom.reportObserved();
+    _$longitudeAtom.reportRead();
     return super.longitude;
   }
 
   @override
   set longitude(double value) {
-    _$longitudeAtom.context.conditionallyRunInAction(() {
+    _$longitudeAtom.reportWrite(value, super.longitude, () {
       super.longitude = value;
-      _$longitudeAtom.reportChanged();
-    }, _$longitudeAtom, name: '${_$longitudeAtom.name}_set');
+    });
   }
 
   final _$latitudeAtom = Atom(name: 'MapControllerBase.latitude');
 
   @override
   double get latitude {
-    _$latitudeAtom.context.enforceReadPolicy(_$latitudeAtom);
-    _$latitudeAtom.reportObserved();
+    _$latitudeAtom.reportRead();
     return super.latitude;
   }
 
   @override
   set latitude(double value) {
-    _$latitudeAtom.context.conditionallyRunInAction(() {
+    _$latitudeAtom.reportWrite(value, super.latitude, () {
       super.latitude = value;
-      _$latitudeAtom.reportChanged();
-    }, _$latitudeAtom, name: '${_$latitudeAtom.name}_set');
+    });
   }
 
   final _$_carregamentoinicialAtom =
@@ -56,19 +53,16 @@ mixin _$MapController on MapControllerBase, Store {
 
   @override
   CARREGAMENTOINICIAL get _carregamentoinicial {
-    _$_carregamentoinicialAtom.context
-        .enforceReadPolicy(_$_carregamentoinicialAtom);
-    _$_carregamentoinicialAtom.reportObserved();
+    _$_carregamentoinicialAtom.reportRead();
     return super._carregamentoinicial;
   }
 
   @override
   set _carregamentoinicial(CARREGAMENTOINICIAL value) {
-    _$_carregamentoinicialAtom.context.conditionallyRunInAction(() {
+    _$_carregamentoinicialAtom.reportWrite(value, super._carregamentoinicial,
+        () {
       super._carregamentoinicial = value;
-      _$_carregamentoinicialAtom.reportChanged();
-    }, _$_carregamentoinicialAtom,
-        name: '${_$_carregamentoinicialAtom.name}_set');
+    });
   }
 
   final _$MapControllerBaseActionController =
@@ -76,7 +70,8 @@ mixin _$MapController on MapControllerBase, Store {
 
   @override
   dynamic setLongitude(double novaLongitude) {
-    final _$actionInfo = _$MapControllerBaseActionController.startAction();
+    final _$actionInfo = _$MapControllerBaseActionController.startAction(
+        name: 'MapControllerBase.setLongitude');
     try {
       return super.setLongitude(novaLongitude);
     } finally {
@@ -86,7 +81,8 @@ mixin _$MapController on MapControllerBase, Store {
 
   @override
   dynamic setLatitude(double novaLatitude) {
-    final _$actionInfo = _$MapControllerBaseActionController.startAction();
+    final _$actionInfo = _$MapControllerBaseActionController.startAction(
+        name: 'MapControllerBase.setLatitude');
     try {
       return super.setLatitude(novaLatitude);
     } finally {
@@ -96,7 +92,8 @@ mixin _$MapController on MapControllerBase, Store {
 
   @override
   dynamic setCarregamentoInicial(CARREGAMENTOINICIAL state) {
-    final _$actionInfo = _$MapControllerBaseActionController.startAction();
+    final _$actionInfo = _$MapControllerBaseActionController.startAction(
+        name: 'MapControllerBase.setCarregamentoInicial');
     try {
       return super.setCarregamentoInicial(state);
     } finally {
@@ -106,8 +103,10 @@ mixin _$MapController on MapControllerBase, Store {
 
   @override
   String toString() {
-    final string =
-        'longitude: ${longitude.toString()},latitude: ${latitude.toString()},estadoCarregamento: ${estadoCarregamento.toString()}';
-    return '{$string}';
+    return '''
+longitude: ${longitude},
+latitude: ${latitude},
+estadoCarregamento: ${estadoCarregamento}
+    ''';
   }
 }

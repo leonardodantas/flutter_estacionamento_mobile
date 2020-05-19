@@ -1,6 +1,6 @@
 import 'package:animated_splash/animated_splash.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
-import 'package:estacionamentodigital/views/pages/inicio.dart';
+import 'package:estacionamentodigital/views/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       return 2;
   };
 
-   Map<int, Widget> op = {1: InicioPage(), 2: InicioPage()};
+   Map<int, Widget> op = {1: LoginScreen(), 2: LoginScreen()};
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       home: AnimatedSplash(
             customFunction: duringSplash,
               imagePath: 'assets/home.png',
-              home: InicioPage(),
+              home: LoginScreen(),
               duration: 3000,
               type: AnimatedSplashType.BackgroundProcess,
               outputAndHome: op,
