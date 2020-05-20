@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart'; 
 
 part 'user.g.dart';
@@ -51,8 +52,9 @@ abstract class UserControllerBase with Store {
       await criarLogSucesso(localLog: "log_criar_usuario",uid: user.user.uid ,data: {"date": new DateTime.now()});
       setEstadoCriarUsuario(ESTADOCRIARUSUARIO.SUCESSO);
     } catch (e) {
+      Map<String, dynamic> mensagemErro = prepararMensagemDeErro(e);
+      await criarLogErro(localLog: "log_criar_usuario_erro",uid: new DateTime.now().toString() ,data:mensagemErro);
       setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA);
-      await criarLogErro(localLog: "log_criar_usuario_erro",uid: new DateTime.now().toString() ,data: {"e": e});
     }
     setEstadoCriarUsuario(ESTADOCRIARUSUARIO.IDEL);
     
@@ -101,6 +103,13 @@ abstract class UserControllerBase with Store {
     } catch (e) {
       print(e);
     }
+  }
+  Map<String, dynamic> prepararMensagemDeErro(PlatformException e){
+    return {
+      "code": e.code,
+      "details": e.details,
+      "message": e.message
+    };
   }
 
 }

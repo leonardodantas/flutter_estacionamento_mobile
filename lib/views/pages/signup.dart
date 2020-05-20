@@ -1,19 +1,63 @@
  
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
-import 'package:estacionamentodigital/views/pages/signup.dart';
 import 'package:estacionamentodigital/views/utilities/constants.dart';
+import 'package:estacionamentodigital/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
-class LoginScreen extends StatefulWidget {
+class Signupcreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupcreenState createState() => _SignupcreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  
+class _SignupcreenState extends State<Signupcreen> {
+
   final userController = GetIt.I<UserController>();
+  final List<ReactionDisposer> _disposers = [];
+
+  @override
+  void dispose() {
+    _disposers.forEach((disposer) => disposer());
+    super.dispose();
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _disposers.add(autorun((_) async {
+      switch (userController.getEstadoCriarUsuario) {
+        case ESTADOCRIARUSUARIO.IDEL:
+            return Container();
+          break;
+        case ESTADOCRIARUSUARIO.CARREGADO:
+            return LoadingWidget();
+          break;
+        case ESTADOCRIARUSUARIO.SUCESSO:
+            return Navigator.pop(context);
+          break;
+        case ESTADOCRIARUSUARIO.FALHA:
+            return AwesomeDialog(
+            context: context,
+            dialogType: DialogType.ERROR,
+            headerAnimationLoop: false,
+            animType: AnimType.TOPSLIDE,
+            tittle: 'Erro',
+            desc:
+                'Erro ao criar usuario, verifique o email e se a senha é menor que 6 caracteres'
+            ,
+            btnOkOnPress: () {
+              
+            })
+        .show();
+          break;
+      }
+    }));
+  }
 
   Widget _buildEmailTF() {
     return Column(
@@ -43,9 +87,45 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               hintText: 'Entre com seu email',
               hintStyle: kHintTextStyle,
-              
             ),
             onChanged: userController.userModel.setEmail,
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  Widget _buildNamelTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Nome',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextField(
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.supervised_user_circle,
+                color: Colors.white,
+              ),
+              hintText: 'Entre com seu Nome',
+              hintStyle: kHintTextStyle,
+            ),
+            onChanged: userController.userModel.setNome,
           ),
         ),
       ],
@@ -88,34 +168,20 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () => userController.redefinirSenha,
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Esqueceu sua senha?',
-          style: kLabelStyle,
-        ),
-      ),
-    );
-  }
-
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => userController.criarNovoUsuario,
+        onPressed: userController.criarNovoUsuario,
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
         color: Colors.white,
         child: Text(
-          'LOGIN',
+          'Criar',
           style: TextStyle(
             color: Color(0xFF527DAA),
             letterSpacing: 1.5,
@@ -127,95 +193,23 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  Widget _buildSignInWithText() {
-    return Column(
-      children: <Widget>[
-        Text(
-          '- UO -',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Text(
-          'Acesse com',
-          style: kLabelStyle,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSocialBtn(Function onTap, AssetImage logo) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 60.0,
-        width: 60.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, 2),
-              blurRadius: 6.0,
-            ),
-          ],
-          image: DecorationImage(
-            image: logo,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSocialBtnRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          _buildSocialBtn(
-            () => print('Login with Facebook'),
-            AssetImage(
-              'assets/facebook.jpg',
-            ),
-          ),
-          _buildSocialBtn(
-            () => print('Login with Google'),
-            AssetImage(
-              'assets/google.jpg',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildSignupBtn() {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=> Signupcreen())),
+      onTap: () => Navigator.of(context).pop(),
       child: RichText(
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Não possui uma conta? ',
+              text: 'Voltar para Tela de Login!',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
                 fontWeight: FontWeight.w400,
               ),
+              
             ),
-            TextSpan(
-              text: 'Cadastre-se',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            
+           
           ],
         ),
       ),
@@ -260,7 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Entrar',
+                        'Criar Conta',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
@@ -269,15 +263,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: 30.0),
+                      _buildNamelTF(),
+                      SizedBox(height: 30.0),
                       _buildEmailTF(),
                       SizedBox(
                         height: 30.0,
                       ),
                       _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
                       _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
                       _buildSignupBtn(),
                     ],
                   ),

@@ -1,5 +1,6 @@
 import 'package:animated_splash/animated_splash.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
+import 'package:estacionamentodigital/controllers/user.dart';
 import 'package:estacionamentodigital/views/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -8,6 +9,7 @@ void main(){
 
   GetIt getIt = GetIt.I;
   getIt.registerSingleton<MapController>(MapController());
+  getIt.registerSingleton<UserController>(UserController());
   runApp(MyApp());
 
 }
