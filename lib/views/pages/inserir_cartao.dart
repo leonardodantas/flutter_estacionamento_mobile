@@ -1,5 +1,7 @@
+import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/views/pages/finalizar.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class InserirCartao extends StatefulWidget {
   @override
@@ -7,6 +9,9 @@ class InserirCartao extends StatefulWidget {
 }
 
 class _InserirCartaoState extends State<InserirCartao> {
+  
+  final _cartaoController = GetIt.I<CartaoController>();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,16 +46,17 @@ class _InserirCartaoState extends State<InserirCartao> {
                     //fillColor: Colors.green
                   ),
                   validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
+                    if (val.length < 16) {
+                      return "Numero deve ser do tamanho 16";
                     } else {
                       return null;
                     }
                   },
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.number,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
+                  onChanged: _cartaoController.cartaoModel.setNomeCartao,
                 ),
               ),
               Container(
@@ -65,17 +71,11 @@ class _InserirCartaoState extends State<InserirCartao> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
+                  onChanged: _cartaoController.cartaoModel.setDataValidadeCartao,
                 ),
               ),
               Container(
@@ -91,16 +91,17 @@ class _InserirCartaoState extends State<InserirCartao> {
                     //fillColor: Colors.green
                   ),
                   validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
+                    if (val.length < 8) {
+                      return "Tamanho minimo de 8";
                     } else {
                       return null;
                     }
                   },
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
+                  onChanged: _cartaoController.cartaoModel.setNomeCartao,
                 ),
               ),
               Container(
@@ -116,16 +117,17 @@ class _InserirCartaoState extends State<InserirCartao> {
                     //fillColor: Colors.green
                   ),
                   validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
+                    if (val.length < 3) {
+                      return "Minimo de 3";
                     } else {
                       return null;
                     }
                   },
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.number,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
+                  onChanged: _cartaoController.cartaoModel.setCV,
                 ),
               ),
               SizedBox(

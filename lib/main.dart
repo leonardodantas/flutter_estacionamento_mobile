@@ -1,4 +1,5 @@
 import 'package:animated_splash/animated_splash.dart';
+import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
 import 'package:estacionamentodigital/views/pages/login.dart';
@@ -10,6 +11,7 @@ void main(){
   GetIt getIt = GetIt.I;
   getIt.registerSingleton<MapController>(MapController());
   getIt.registerSingleton<UserController>(UserController());
+  getIt.registerSingleton<CartaoController>(CartaoController());
   runApp(MyApp());
 
 }
@@ -20,9 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Function duringSplash = () {
-    print('Something background process');
     int a = 123 + 23;
-    print(a);
 
     if (a > 100)
       return 1;

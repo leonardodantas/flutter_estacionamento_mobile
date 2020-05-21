@@ -221,7 +221,7 @@ class _SignupcreenState extends State<Signupcreen> {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
+        child: GestureDetector( 
           onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: <Widget>[

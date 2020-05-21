@@ -1,6 +1,8 @@
 import 'dart:ui';
+import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/views/pages/dono_veiculo.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class InserirVeiculoPage extends StatefulWidget {
   @override
@@ -8,6 +10,9 @@ class InserirVeiculoPage extends StatefulWidget {
 }
 
 class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
+
+  final _cartaoController = GetIt.I<CartaoController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,16 +47,17 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                     //fillColor: Colors.green
                   ),
                   validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
+                    if (val.length < 7) {
+                      return "Placa invalida";
                     } else {
                       return null;
                     }
                   },
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
+                  onChanged: _cartaoController.cartaoModel.setPlacaVeiculo,
                 ),
               ),
               SizedBox(

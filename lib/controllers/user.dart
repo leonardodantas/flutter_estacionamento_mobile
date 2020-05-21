@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/user.dart';
+import 'package:estacionamentodigital/services/LogService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart'; 
 
 part 'user.g.dart';
@@ -15,6 +15,7 @@ class UserController = UserControllerBase with _$UserController;
 abstract class UserControllerBase with Store {
 
   UserModel userModel = UserModel();  
+  LogService logService = LogService();
 
   Map<String, dynamic> toMap(){
     return {
@@ -49,11 +50,12 @@ abstract class UserControllerBase with Store {
     try {
       AuthResult user = await auth.createUserWithEmailAndPassword(email: userModel.email, password: userModel.senha);
       firestore.collection("usuarios").document(user.user.uid).setData(toMap());
-      await criarLogSucesso(localLog: "log_criar_usuario",uid: user.user.uid ,data: {"date": new DateTime.now()});
+
+      await logService.criarLogSucesso("log_criar_usuario", user.user.uid, {"date": new DateTime.now()});
+      
       setEstadoCriarUsuario(ESTADOCRIARUSUARIO.SUCESSO);
     } catch (e) {
-      Map<String, dynamic> mensagemErro = prepararMensagemDeErro(e);
-      await criarLogErro(localLog: "log_criar_usuario_erro",uid: new DateTime.now().toString() ,data:mensagemErro);
+      await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_criar_usuario");
       setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA);
     }
     setEstadoCriarUsuario(ESTADOCRIARUSUARIO.IDEL);
@@ -66,50 +68,36 @@ abstract class UserControllerBase with Store {
     setEstadoLogin(ESTADOLOGIN.CARREGADO);
     try {
       AuthResult user = await auth.signInWithEmailAndPassword(email: userModel.email, password: userModel.senha);      
-      await criarLogSucesso(localLog: "log_login",uid: user.user.uid ,data: {"date": new DateTime.now()});
+      await logService.criarLogSucesso("log_login_usuario", user.user.uid, {"date": new DateTime.now()});
       setEstadoLogin(ESTADOLOGIN.SUCESSO);
       } catch (e) {
-      await criarLogErro(localLog: "log_login_erro",uid: new DateTime.now().toString() ,data: {"e": e});
+      await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_login_usuario");
       setEstadoLogin(ESTADOLOGIN.FALHA);
     }
     setEstadoLogin(ESTADOLOGIN.IDEL);
   }
 
-  redefinirSenha() async {
+  Future redefinirSenha() async {
     
     FirebaseAuth auth = FirebaseAuth.instance;
     
     try {
       await auth.sendPasswordResetEmail(email: userModel.email);  
-      await criarLogSucesso(localLog: "log_redefinir_senha",uid: userModel.email ,data: {"date": new DateTime.now()});
+      await logService.criarLogSucesso("log_recuperar_senha", userModel.email, {"date": new DateTime.now()});
     } catch (e) {
-      await criarLogErro(localLog: "log_redefinir_senha_erro",uid: new DateTime.now().toString() ,data: {"e": e});
+      await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_recuperar_senha");
     }
   }
 
-  criarLogSucesso({String localLog, String uid ,Map<String, dynamic> data}) async{
-    Firestore firestore = Firestore.instance;
+  Future logout() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
     try {
-      await firestore.collection(localLog).document(uid).setData(data);
+      FirebaseUser currentUser = await auth.currentUser();
+      await logService.criarLogSucesso("log_logout_user_sucesso", currentUser.uid, {"date": new DateTime.now()});
+      await auth.signOut();
     } catch (e) {
-      print(e);
+      await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_logout");
     }
-  }
-
-  criarLogErro({String localLog, String uid ,Map<String, dynamic> data}) async{
-    Firestore firestore = Firestore.instance;
-    try {
-      await firestore.collection(localLog).document(uid).setData(data);
-    } catch (e) {
-      print(e);
-    }
-  }
-  Map<String, dynamic> prepararMensagemDeErro(PlatformException e){
-    return {
-      "code": e.code,
-      "details": e.details,
-      "message": e.message
-    };
   }
 
 }

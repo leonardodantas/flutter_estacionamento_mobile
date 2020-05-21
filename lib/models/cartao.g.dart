@@ -8,8 +8,8 @@ part of 'cartao.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$CartaoDAO on CartaoDAOBase, Store {
-  final _$uidAtom = Atom(name: 'CartaoDAOBase.uid');
+mixin _$CartaoModel on CartaoModelBase, Store {
+  final _$uidAtom = Atom(name: 'CartaoModelBase.uid');
 
   @override
   String get uid {
@@ -24,7 +24,7 @@ mixin _$CartaoDAO on CartaoDAOBase, Store {
     });
   }
 
-  final _$placaVeiculoAtom = Atom(name: 'CartaoDAOBase.placaVeiculo');
+  final _$placaVeiculoAtom = Atom(name: 'CartaoModelBase.placaVeiculo');
 
   @override
   String get placaVeiculo {
@@ -39,7 +39,7 @@ mixin _$CartaoDAO on CartaoDAOBase, Store {
     });
   }
 
-  final _$nomeProprietarioAtom = Atom(name: 'CartaoDAOBase.nomeProprietario');
+  final _$nomeProprietarioAtom = Atom(name: 'CartaoModelBase.nomeProprietario');
 
   @override
   String get nomeProprietario {
@@ -54,7 +54,7 @@ mixin _$CartaoDAO on CartaoDAOBase, Store {
     });
   }
 
-  final _$cpfAtom = Atom(name: 'CartaoDAOBase.cpf');
+  final _$cpfAtom = Atom(name: 'CartaoModelBase.cpf');
 
   @override
   String get cpf {
@@ -69,7 +69,7 @@ mixin _$CartaoDAO on CartaoDAOBase, Store {
     });
   }
 
-  final _$nomeCartaoAtom = Atom(name: 'CartaoDAOBase.nomeCartao');
+  final _$nomeCartaoAtom = Atom(name: 'CartaoModelBase.nomeCartao');
 
   @override
   String get nomeCartao {
@@ -84,7 +84,7 @@ mixin _$CartaoDAO on CartaoDAOBase, Store {
     });
   }
 
-  final _$numeroCartaoAtom = Atom(name: 'CartaoDAOBase.numeroCartao');
+  final _$numeroCartaoAtom = Atom(name: 'CartaoModelBase.numeroCartao');
 
   @override
   String get numeroCartao {
@@ -99,7 +99,7 @@ mixin _$CartaoDAO on CartaoDAOBase, Store {
     });
   }
 
-  final _$cvAtom = Atom(name: 'CartaoDAOBase.cv');
+  final _$cvAtom = Atom(name: 'CartaoModelBase.cv');
 
   @override
   String get cv {
@@ -114,7 +114,23 @@ mixin _$CartaoDAO on CartaoDAOBase, Store {
     });
   }
 
-  final _$quantidadeAtom = Atom(name: 'CartaoDAOBase.quantidade');
+  final _$dataValidadeCartaoAtom =
+      Atom(name: 'CartaoModelBase.dataValidadeCartao');
+
+  @override
+  String get dataValidadeCartao {
+    _$dataValidadeCartaoAtom.reportRead();
+    return super.dataValidadeCartao;
+  }
+
+  @override
+  set dataValidadeCartao(String value) {
+    _$dataValidadeCartaoAtom.reportWrite(value, super.dataValidadeCartao, () {
+      super.dataValidadeCartao = value;
+    });
+  }
+
+  final _$quantidadeAtom = Atom(name: 'CartaoModelBase.quantidade');
 
   @override
   double get quantidade {
@@ -129,83 +145,94 @@ mixin _$CartaoDAO on CartaoDAOBase, Store {
     });
   }
 
-  final _$CartaoDAOBaseActionController =
-      ActionController(name: 'CartaoDAOBase');
+  final _$CartaoModelBaseActionController =
+      ActionController(name: 'CartaoModelBase');
 
   @override
   dynamic setPlacaVeiculo(String placa) {
-    final _$actionInfo = _$CartaoDAOBaseActionController.startAction(
-        name: 'CartaoDAOBase.setPlacaVeiculo');
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setPlacaVeiculo');
     try {
       return super.setPlacaVeiculo(placa);
     } finally {
-      _$CartaoDAOBaseActionController.endAction(_$actionInfo);
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setProprietario(String proprietario) {
-    final _$actionInfo = _$CartaoDAOBaseActionController.startAction(
-        name: 'CartaoDAOBase.setProprietario');
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setProprietario');
     try {
       return super.setProprietario(proprietario);
     } finally {
-      _$CartaoDAOBaseActionController.endAction(_$actionInfo);
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setCPF(String novoCpf) {
-    final _$actionInfo = _$CartaoDAOBaseActionController.startAction(
-        name: 'CartaoDAOBase.setCPF');
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setCPF');
     try {
       return super.setCPF(novoCpf);
     } finally {
-      _$CartaoDAOBaseActionController.endAction(_$actionInfo);
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setNomeCartao(String nome) {
-    final _$actionInfo = _$CartaoDAOBaseActionController.startAction(
-        name: 'CartaoDAOBase.setNomeCartao');
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setNomeCartao');
     try {
       return super.setNomeCartao(nome);
     } finally {
-      _$CartaoDAOBaseActionController.endAction(_$actionInfo);
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setNumeroCartao(String numero) {
-    final _$actionInfo = _$CartaoDAOBaseActionController.startAction(
-        name: 'CartaoDAOBase.setNumeroCartao');
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setNumeroCartao');
     try {
       return super.setNumeroCartao(numero);
     } finally {
-      _$CartaoDAOBaseActionController.endAction(_$actionInfo);
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setCV(String c) {
-    final _$actionInfo = _$CartaoDAOBaseActionController.startAction(
-        name: 'CartaoDAOBase.setCV');
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setCV');
     try {
       return super.setCV(c);
     } finally {
-      _$CartaoDAOBaseActionController.endAction(_$actionInfo);
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setDataValidadeCartao(String novaData) {
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setDataValidadeCartao');
+    try {
+      return super.setDataValidadeCartao(novaData);
+    } finally {
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setQuantidade(double qtd) {
-    final _$actionInfo = _$CartaoDAOBaseActionController.startAction(
-        name: 'CartaoDAOBase.setQuantidade');
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setQuantidade');
     try {
       return super.setQuantidade(qtd);
     } finally {
-      _$CartaoDAOBaseActionController.endAction(_$actionInfo);
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
@@ -219,6 +246,7 @@ cpf: ${cpf},
 nomeCartao: ${nomeCartao},
 numeroCartao: ${numeroCartao},
 cv: ${cv},
+dataValidadeCartao: ${dataValidadeCartao},
 quantidade: ${quantidade}
     ''';
   }

@@ -1,5 +1,7 @@
+import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/views/pages/sucesso_comprar_cartao.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class FinalizarCompra extends StatefulWidget {
   @override
@@ -7,6 +9,9 @@ class FinalizarCompra extends StatefulWidget {
 }
 
 class _FinalizarCompraState extends State<FinalizarCompra> {
+
+  final _cartaoController = GetIt.I<CartaoController>();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +36,8 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
               Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
+                  enabled: false,
+                  initialValue: _cartaoController.cartaoModel.placaVeiculo,
                   decoration: new InputDecoration(
                     labelText: "Placa Veiculo",
                     fillColor: Colors.white,
@@ -40,14 +47,6 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  keyboardType: TextInputType.emailAddress,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
@@ -56,6 +55,8 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
               Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
+                  enabled: false,
+                  initialValue: _cartaoController.cartaoModel.nomeCartao,
                   decoration: new InputDecoration(
                     labelText: "Nome",
                     fillColor: Colors.white,
@@ -65,14 +66,6 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  keyboardType: TextInputType.emailAddress,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
@@ -81,6 +74,8 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
               Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
+                  enabled: false,
+                  initialValue: _cartaoController.cartaoModel.cpf,
                   decoration: new InputDecoration(
                     labelText: "CPF",
                     fillColor: Colors.white,
@@ -90,14 +85,6 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  keyboardType: TextInputType.emailAddress,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),

@@ -8,13 +8,22 @@ class LogService {
   criarLogErro(PlatformException erro,String uid, String localLog) async {
     firestore = Firestore.instance;
     try {
-      await firestore.collection(localLog).document(uid).setData(criarMensagemErro(erro));
+      await firestore.collection("logs").document(localLog).collection(new DateTime.now().toString()).document(uid).setData(_criarMensagemErro(erro));
     } catch (e) {
       print(e);
     }
   }
 
-  Map<String, dynamic> criarMensagemErro(PlatformException e){
+  criarLogSucesso(String localLog, String uid, Map<String, dynamic> dado) async {
+    firestore = Firestore.instance;
+    try {
+      await firestore.collection("logs").document(localLog).collection(new DateTime.now().toString()).document(uid).setData(dado);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Map<String, dynamic> _criarMensagemErro(PlatformException e){
     return {
       "code": e.code,
       "message": e.message,

@@ -1,10 +1,13 @@
  
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
+import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:estacionamentodigital/views/pages/signup.dart';
 import 'package:estacionamentodigital/views/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,7 +16,50 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   
+
   final userController = GetIt.I<UserController>();
+  final List<ReactionDisposer> _disposers = [];
+
+  @override
+  void dispose() {
+    _disposers.forEach((disposer) => disposer());
+    super.dispose();
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _disposers.add(autorun((_) async {
+      switch (userController.getEstadoLogin) {
+        case ESTADOLOGIN.IDEL:
+          // TODO: Handle this case.
+          break;
+        case ESTADOLOGIN.CARREGADO:
+          // TODO: Handle this case.
+          break;
+        case ESTADOLOGIN.SUCESSO:
+          Navigator.push(context, MaterialPageRoute(builder: (_)=> InicioPage() ));
+          break;
+        case ESTADOLOGIN.FALHA:
+          return AwesomeDialog(
+            context: context,
+            dialogType: DialogType.ERROR,
+            headerAnimationLoop: false,
+            animType: AnimType.TOPSLIDE,
+            tittle: 'Login',
+            desc:
+                'Erro ao realizar login, verifique email e senha, se achar melhor recupere sua senha'
+            ,
+            btnOkOnPress: () {
+              
+            })
+        .show();
+          break;
+      }
+    }));
+  }
 
   Widget _buildEmailTF() {
     return Column(
@@ -92,7 +138,40 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       alignment: Alignment.centerRight,
       child: FlatButton(
-        onPressed: () => userController.redefinirSenha,
+        onPressed: (){
+          userController.redefinirSenha()
+            .then((value){
+          return AwesomeDialog(
+            context: context,
+            dialogType: DialogType.SUCCES,
+            headerAnimationLoop: false,
+            animType: AnimType.TOPSLIDE,
+            tittle: 'Senha Reenviada',
+            desc:
+                'Senha reenviada para o email ${userController.userModel.email}'
+            ,
+            btnOkOnPress: () {
+              
+            })
+        .show();
+            })
+            .catchError((e){
+                        return AwesomeDialog(
+            context: context,
+            dialogType: DialogType.ERROR,
+            headerAnimationLoop: false,
+            animType: AnimType.TOPSLIDE,
+            tittle: 'Erro ao reenviar senha',
+            desc:
+              'Ocorreu um erro ao tentar reenviar a senha para o email ${userController.userModel.email}'
+            ,
+            btnOkOnPress: () {
+              
+            })
+        .show();
+            })
+          ;
+        },
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Esqueceu sua senha?',
@@ -108,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => userController.criarNovoUsuario,
+        onPressed: userController.login,
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),

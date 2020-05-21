@@ -2,9 +2,9 @@ import 'package:mobx/mobx.dart';
 
 part 'cartao.g.dart';
 
-class CartaoDAO = CartaoDAOBase with _$CartaoDAO;
+class CartaoModel = CartaoModelBase with _$CartaoModel;
 
-abstract class CartaoDAOBase with Store {
+abstract class CartaoModelBase with Store {
   @observable
   String uid;
 
@@ -38,6 +38,11 @@ abstract class CartaoDAOBase with Store {
   @action
   setCV(String c) => cv = c;
 
+  @observable 
+  String dataValidadeCartao;
+  @action 
+  setDataValidadeCartao(String novaData) => dataValidadeCartao = novaData;
+  
   @observable
   double quantidade;
   @action
@@ -49,7 +54,7 @@ abstract class CartaoDAOBase with Store {
     var minutos = data.minute;
     return '${hora}:${minutos}';
   }
-
+ 
   String calcularHoraDeTermino() {
     var data = new DateTime.now();
     var hora = data.hour + 2;
