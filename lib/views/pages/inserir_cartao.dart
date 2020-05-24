@@ -1,6 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/views/pages/finalizar.dart';
+import 'package:estacionamentodigital/views/pages/inserir_veiculo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 class InserirCartao extends StatefulWidget {
@@ -33,10 +36,12 @@ class _InserirCartaoState extends State<InserirCartao> {
               SizedBox(
                 height: 30,
               ),
-              Container(
+              Observer(builder: (_){
+                return Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
+                    errorText: _cartaoController.cartaoModel.validarNumeroCartao() ? "Minimo de 16" : null,
                     labelText: "Numero",
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
@@ -45,20 +50,16 @@ class _InserirCartaoState extends State<InserirCartao> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length < 16) {
-                      return "Numero deve ser do tamanho 16";
-                    } else {
-                      return null;
-                    }
-                  },
                   keyboardType: TextInputType.number,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
-                  onChanged: _cartaoController.cartaoModel.setNomeCartao,
+                  onChanged: _cartaoController.cartaoModel.setNumeroCartao,
                 ),
-              ),
+              );
+              }),
+              Observer(builder: (_){
+                return 
               Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
@@ -77,11 +78,14 @@ class _InserirCartaoState extends State<InserirCartao> {
                   ),
                   onChanged: _cartaoController.cartaoModel.setDataValidadeCartao,
                 ),
-              ),
-              Container(
+              );
+              }),
+              Observer(builder: (_){
+                return Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
+                    errorText: _cartaoController.cartaoModel.validarNomeCartao() ? "Minimo de 8" : null,
                     labelText: "Nome no Cartão",
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
@@ -90,24 +94,21 @@ class _InserirCartaoState extends State<InserirCartao> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length < 8) {
-                      return "Tamanho minimo de 8";
-                    } else {
-                      return null;
-                    }
-                  },
                   keyboardType: TextInputType.text,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
                   onChanged: _cartaoController.cartaoModel.setNomeCartao,
+                  
                 ),
-              ),
-              Container(
+              );  
+              }),
+              Observer(builder: (_){
+                return Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
+                    errorText: _cartaoController.cartaoModel.validarCVCartao() ? "Minimo de 3" : null,
                     labelText: "CV",
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
@@ -116,20 +117,14 @@ class _InserirCartaoState extends State<InserirCartao> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length < 3) {
-                      return "Minimo de 3";
-                    } else {
-                      return null;
-                    }
-                  },
                   keyboardType: TextInputType.number,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
                   onChanged: _cartaoController.cartaoModel.setCV,
                 ),
-              ),
+              );
+              },),
               SizedBox(
                 height: 60,
               ),
@@ -166,7 +161,39 @@ class _InserirCartaoState extends State<InserirCartao> {
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=> FinalizarCompra()));
+                          _cartaoController.validarInformacoesParaFinalizar()
+                            .then((value){
+                              if(value) 
+                               Navigator.push(context, MaterialPageRoute(builder: (_)=> FinalizarCompra()));
+                              else {
+                                return AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.ERROR,
+                                headerAnimationLoop: false,
+                                animType: AnimType.TOPSLIDE,
+                                tittle: 'Atenção',
+                                desc: 'Informações Incompletas, volte para completá-las',
+                                btnOkOnPress: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (_)=> InserirVeiculoPage()));
+                                })
+                                  .show();  
+                              }
+                            })
+                            .catchError((e){
+                              return AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.ERROR,
+                                headerAnimationLoop: false,
+                                animType: AnimType.TOPSLIDE,
+                                tittle: 'Atenção',
+                                desc: 'Informações Incompletas, volte para completá-las',
+                                btnCancelOnPress: () {},
+                                btnOkOnPress: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (_)=> InserirVeiculoPage()));
+                                })
+                                  .show();
+                            });
+                            
                         },
                         shape: StadiumBorder(),
                       ),

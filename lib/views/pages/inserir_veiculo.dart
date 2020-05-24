@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/views/pages/dono_veiculo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 class InserirVeiculoPage extends StatefulWidget {
@@ -34,11 +35,13 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
               SizedBox(
                 height: 60,
               ),
-              Container(
+              Observer(builder: (_){
+                return Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
                     labelText: "Placa do Veiculo",
+                    errorText: _cartaoController.cartaoModel.validarPlacaVeiculo() ? "Minimo de 7" : null,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -46,20 +49,14 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length < 7) {
-                      return "Placa invalida";
-                    } else {
-                      return null;
-                    }
-                  },
                   keyboardType: TextInputType.text,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
                   onChanged: _cartaoController.cartaoModel.setPlacaVeiculo,
                 ),
-              ),
+              );
+              }),
               SizedBox(
                 height: 150,
               ),

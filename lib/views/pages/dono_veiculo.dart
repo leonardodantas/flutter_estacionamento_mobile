@@ -1,6 +1,7 @@
 import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/views/pages/inserir_cartao.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 class DonoVeiculoPage extends StatefulWidget {
@@ -33,11 +34,13 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
               SizedBox(
                 height: 30,
               ),
-              Container(
+              Observer(builder: (_){
+                return Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
                     labelText: "Nome",
+                    errorText: _cartaoController.cartaoModel.validarNomeProprietario() ? "Minimo de 8" : null,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -45,25 +48,21 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length < 8) {
-                      return "Tamanho minimo de 8";
-                    } else {
-                      return null;
-                    }
-                  },
                   keyboardType: TextInputType.text,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
                   onChanged: _cartaoController.cartaoModel.setProprietario,
                 ),
-              ),
-              Container(
+              );
+              }),
+              Observer(builder: (_){
+                return Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
                     labelText: "CPF",
+                    errorText: _cartaoController.cartaoModel.validarCpfVeiculo() ? "Minimo de 11" : null,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -71,20 +70,14 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                     ),
                     //fillColor: Colors.green
                   ),
-                  validator: (val) {
-                    if (val.length == 0) {
-                      return "CPF no minimo de 11";
-                    } else {
-                      return null;
-                    }
-                  },
                   keyboardType: TextInputType.number,
                   style: new TextStyle(
                     fontFamily: "Poppins",
                   ),
                   onChanged: _cartaoController.cartaoModel.setCPF,
                 ),
-              ),
+              );
+              }),
               SizedBox(
                 height: 60,
               ),

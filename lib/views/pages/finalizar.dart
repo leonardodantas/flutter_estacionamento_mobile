@@ -1,4 +1,5 @@
 import 'package:estacionamentodigital/controllers/cartao.dart';
+import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:estacionamentodigital/views/pages/sucesso_comprar_cartao.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -108,7 +109,8 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          //Navigator.of(context).popUntil((route) => route.isFirst);
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> InicioPage()));
                         },
                         shape: StadiumBorder(),
                       ),
@@ -126,7 +128,12 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=> SucessoComprarCartaoPage()));
+                          this._cartaoController.inserirNovoCartao()
+                            .then((value){
+                                Navigator.push(context, MaterialPageRoute(builder: (_)=> SucessoComprarCartaoPage()));
+                            }).catchError((e){
+                              print(e);
+                            }) ;
                         },
                         shape: StadiumBorder(),
                       ),

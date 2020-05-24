@@ -64,51 +64,54 @@ abstract class CartaoModelBase with Store {
 
   Map<String, dynamic> toMap() {
     return {
-      "placaVeiculo": placaVeiculo,
-      "nomeProprietario": nomeProprietario,
+      "placaVeiculo": placaVeiculo.replaceAll('-', '').toUpperCase(),
+      "nomeProprietario": nomeProprietario.toUpperCase(),
       "cpf": cpf,
-      "nomeCartao": nomeCartao,
+      "nomeCartao": nomeCartao.toUpperCase(),
       "numeroCartao": numeroCartao,
       "CV": cv,
-      "quantidade": quantidade,
+      "quantidade": 1,
       "horaDeInicio": calcularHoraDeInicio(),
-      "horaDeTermino": calcularHoraDeTermino()
+      "horaDeTermino": calcularHoraDeTermino(),
+      "data": new DateTime.now()
     };
   }
 
-  String validarPlacaVeiculo(String placa) {
-    if (placa.isNotEmpty && placa.length < 8)
-      return "Valor invalido para placa";
-    return "";
+  zerarVariaveis() {
+    placaVeiculo = '';
+    nomeProprietario = '';
+    cpf = '';
+    nomeCartao = '';
+    cv = '';
   }
 
-  String validarNomeProprietario(String nome) {
-    if (nomeProprietario.isNotEmpty && nomeProprietario.length < 8)
-      return "Valor invalido para nome";
-    return "";
+  bool _valida(String campo, int length) {
+    if(campo != null)
+      return campo.length < length;
+    return false;
   }
 
-  String validarCpfVeiculo(String cpf) {
-    if (cpf.isNotEmpty && cpf.length < 11) return "Valor invalido para Cpf";
-    return "";
+  bool validarPlacaVeiculo() {
+    return _valida(placaVeiculo, 7);
   }
 
-   String validarNomeCartao(String nome){
-    if(nomeCartao.isNotEmpty && nomeCartao.length < 8)
-      return "Valor invalido para nome";
-    return "";
+  bool validarNomeProprietario() {
+    return _valida(nomeProprietario, 8);
   }
 
-  String validarNumeroCartao(String numero){
-    if(numeroCartao.isNotEmpty && numeroCartao.length < 16)
-      return "Valor invalido para cartão";
-    return "";
+  bool validarCpfVeiculo() {
+    return _valida(cpf, 11);
   }
 
-  
-  String validarCVCartao(String numero){
-    if(cv.isNotEmpty && cv.length < 2)
-      return "Valor invalido para CV";
-    return "";
+   bool validarNomeCartao(){
+    return _valida(nomeCartao, 8);
+  }
+
+  bool validarNumeroCartao(){
+    return _valida(numeroCartao, 16);
+  }
+
+  bool validarCVCartao(){
+    return _valida(cv, 3);
   }
 }
