@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/views/pages/finalizar.dart';
+import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:estacionamentodigital/views/pages/inserir_veiculo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -143,7 +144,7 @@ class _InserirCartaoState extends State<InserirCartao> {
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_)=> InicioPage()));
                         },
                         shape: StadiumBorder(),
                       ),

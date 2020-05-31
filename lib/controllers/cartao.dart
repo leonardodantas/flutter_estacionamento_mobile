@@ -34,7 +34,7 @@ abstract class CartaoControllerBase with Store {
         }
         return false;
       } catch (e) {
-        await _logService.criarLogSucesso("log_form_cartao_validado_erro", uid, {"date": new DateTime.now()} );  
+        await _logService.criarLogErro(e, uid, "log_form_cartao_validado_erro" );  
         return false;       
       }
 

@@ -34,6 +34,9 @@ class _MapPageState extends State<MapPage> {
       floatingActionButton: FloatingActionWidget(),
       body: Observer(builder: (_) {
       return GoogleMap(
+        markers: _mapController.mapModel.getLocations,
+          myLocationButtonEnabled: true,
+          zoomControlsEnabled: false,
           onMapCreated: _onMapCreated,
           onCameraMove: (data) {
             print(data);
@@ -42,8 +45,8 @@ class _MapPageState extends State<MapPage> {
             print(position);
           },
           initialCameraPosition: CameraPosition(
-              target: LatLng(_mapController.latitude, _mapController.longitude),
-              zoom: 60.0));
+              target: LatLng(_mapController.mapModel.latitude, _mapController.mapModel.longitude),
+              zoom: 18.0));
     }));
   }
 }

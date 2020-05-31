@@ -4,8 +4,10 @@ import 'package:estacionamentodigital/controllers/user.dart';
 import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:estacionamentodigital/views/pages/signup.dart';
 import 'package:estacionamentodigital/views/utilities/constants.dart';
+import 'package:estacionamentodigital/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
@@ -19,6 +21,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final userController = GetIt.I<UserController>();
   final List<ReactionDisposer> _disposers = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userController.verificarSeExisteUsuarioLogado();
+  }
 
   @override
   void dispose() {
@@ -275,7 +284,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSignupBtn() {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=> Signupcreen())),
+      onTap: () {
+        userController.setEstadoCriarUsuario(ESTADOCRIARUSUARIO.IDEL);
+        Navigator.push(context, MaterialPageRoute(builder: (_)=> Signupcreen()));
+      },
       child: RichText(
         text: TextSpan(
           children: [
@@ -304,7 +316,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
+      body: Observer(builder: (_){
+        if(userController.getUsuarioLogado) {
+          return LoadingWidget();  
+        } else {
+          return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -365,7 +381,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-      ),
-    );
+      );
+ 
+        }
+      })
+
+         );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:estacionamentodigital/services/dateTimeService.dart';
 import 'package:mobx/mobx.dart';
 
 part 'cartao.g.dart';
@@ -48,6 +49,15 @@ abstract class CartaoModelBase with Store {
   @action
   setQuantidade(double qtd) => quantidade = qtd;
 
+  @observable 
+  double latitude;
+  @action
+  setLatitude(double novaLatitude) => latitude = novaLatitude;
+
+  @observable  
+  double longitude;
+  setLongitude(double novaLongitude) => longitude = novaLongitude;
+
   String calcularHoraDeInicio(){
     var data = new DateTime.now();
     var hora = data.hour;
@@ -71,10 +81,14 @@ abstract class CartaoModelBase with Store {
       "numeroCartao": numeroCartao,
       "CV": cv,
       "quantidade": 1,
+      "dataInicioCompleta": new DateTime.now(),
       "horaDeInicio": calcularHoraDeInicio(),
       "horaDeTermino": calcularHoraDeTermino(),
-      "data": new DateTime.now()
-    };
+      "dataInicio": new DateTimeService().gerarDataAtual(),
+      "dataTermino": new DateTimeService().gerarDataComUmaHoraAdicional(),
+      "longitude": longitude, 
+      "latitude": latitude
+     };
   }
 
   zerarVariaveis() {

@@ -145,6 +145,36 @@ mixin _$CartaoModel on CartaoModelBase, Store {
     });
   }
 
+  final _$latitudeAtom = Atom(name: 'CartaoModelBase.latitude');
+
+  @override
+  double get latitude {
+    _$latitudeAtom.reportRead();
+    return super.latitude;
+  }
+
+  @override
+  set latitude(double value) {
+    _$latitudeAtom.reportWrite(value, super.latitude, () {
+      super.latitude = value;
+    });
+  }
+
+  final _$longitudeAtom = Atom(name: 'CartaoModelBase.longitude');
+
+  @override
+  double get longitude {
+    _$longitudeAtom.reportRead();
+    return super.longitude;
+  }
+
+  @override
+  set longitude(double value) {
+    _$longitudeAtom.reportWrite(value, super.longitude, () {
+      super.longitude = value;
+    });
+  }
+
   final _$CartaoModelBaseActionController =
       ActionController(name: 'CartaoModelBase');
 
@@ -237,6 +267,17 @@ mixin _$CartaoModel on CartaoModelBase, Store {
   }
 
   @override
+  dynamic setLatitude(double novaLatitude) {
+    final _$actionInfo = _$CartaoModelBaseActionController.startAction(
+        name: 'CartaoModelBase.setLatitude');
+    try {
+      return super.setLatitude(novaLatitude);
+    } finally {
+      _$CartaoModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 uid: ${uid},
@@ -247,7 +288,9 @@ nomeCartao: ${nomeCartao},
 numeroCartao: ${numeroCartao},
 cv: ${cv},
 dataValidadeCartao: ${dataValidadeCartao},
-quantidade: ${quantidade}
+quantidade: ${quantidade},
+latitude: ${latitude},
+longitude: ${longitude}
     ''';
   }
 }

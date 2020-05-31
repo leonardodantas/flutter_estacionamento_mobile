@@ -24,6 +24,13 @@ mixin _$UserController on UserControllerBase, Store {
               () => super.getEstadoCriarUsuario,
               name: 'UserControllerBase.getEstadoCriarUsuario'))
           .value;
+  Computed<bool> _$getUsuarioLogadoComputed;
+
+  @override
+  bool get getUsuarioLogado => (_$getUsuarioLogadoComputed ??= Computed<bool>(
+          () => super.getUsuarioLogado,
+          name: 'UserControllerBase.getUsuarioLogado'))
+      .value;
 
   final _$estadologinAtom = Atom(name: 'UserControllerBase.estadologin');
 
@@ -56,6 +63,52 @@ mixin _$UserController on UserControllerBase, Store {
     });
   }
 
+  final _$usuarioLogadoAtom = Atom(name: 'UserControllerBase.usuarioLogado');
+
+  @override
+  bool get usuarioLogado {
+    _$usuarioLogadoAtom.reportRead();
+    return super.usuarioLogado;
+  }
+
+  @override
+  set usuarioLogado(bool value) {
+    _$usuarioLogadoAtom.reportWrite(value, super.usuarioLogado, () {
+      super.usuarioLogado = value;
+    });
+  }
+
+  final _$criarNovoUsuarioAsyncAction =
+      AsyncAction('UserControllerBase.criarNovoUsuario');
+
+  @override
+  Future criarNovoUsuario() {
+    return _$criarNovoUsuarioAsyncAction.run(() => super.criarNovoUsuario());
+  }
+
+  final _$loginAsyncAction = AsyncAction('UserControllerBase.login');
+
+  @override
+  Future login() {
+    return _$loginAsyncAction.run(() => super.login());
+  }
+
+  final _$verificarSeExisteUsuarioLogadoAsyncAction =
+      AsyncAction('UserControllerBase.verificarSeExisteUsuarioLogado');
+
+  @override
+  Future verificarSeExisteUsuarioLogado() {
+    return _$verificarSeExisteUsuarioLogadoAsyncAction
+        .run(() => super.verificarSeExisteUsuarioLogado());
+  }
+
+  final _$logoutAsyncAction = AsyncAction('UserControllerBase.logout');
+
+  @override
+  Future<dynamic> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   final _$UserControllerBaseActionController =
       ActionController(name: 'UserControllerBase');
 
@@ -82,12 +135,25 @@ mixin _$UserController on UserControllerBase, Store {
   }
 
   @override
+  dynamic setUsuarioLogado(bool usuario) {
+    final _$actionInfo = _$UserControllerBaseActionController.startAction(
+        name: 'UserControllerBase.setUsuarioLogado');
+    try {
+      return super.setUsuarioLogado(usuario);
+    } finally {
+      _$UserControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 estadologin: ${estadologin},
 estadocriarusuario: ${estadocriarusuario},
+usuarioLogado: ${usuarioLogado},
 getEstadoLogin: ${getEstadoLogin},
-getEstadoCriarUsuario: ${getEstadoCriarUsuario}
+getEstadoCriarUsuario: ${getEstadoCriarUsuario},
+getUsuarioLogado: ${getUsuarioLogado}
     ''';
   }
 }

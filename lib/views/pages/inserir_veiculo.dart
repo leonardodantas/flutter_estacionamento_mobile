@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/views/pages/dono_veiculo.dart';
+import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -75,7 +76,7 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_)=> InicioPage()));
                         },
                         shape: StadiumBorder(),
                       ),

@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/user.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:estacionamentodigital/services/userService.dart';
 import 'package:mobx/mobx.dart'; 
 
 part 'user.g.dart';
@@ -16,14 +15,7 @@ abstract class UserControllerBase with Store {
 
   UserModel userModel = UserModel();  
   LogService logService = LogService();
-
-  Map<String, dynamic> toMap(){
-    return {
-      'nome': userModel.nome,
-      'email': userModel.email,
-      'data_criacao': new DateTime.now()
-    };
-  }
+  UserService userService = new UserService();
 
   @observable 
   ESTADOLOGIN estadologin = ESTADOLOGIN.IDEL;
@@ -43,58 +35,82 @@ abstract class UserControllerBase with Store {
     return estadocriarusuario;
   }
 
+  @observable 
+  bool usuarioLogado = true;
+  @action
+  setUsuarioLogado(bool usuario) => usuarioLogado = usuario;
+  @computed 
+  bool get getUsuarioLogado {
+    return usuarioLogado;
+  }
+
+  @action
   criarNovoUsuario() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    Firestore firestore = Firestore.instance;
+
     setEstadoCriarUsuario(ESTADOCRIARUSUARIO.CARREGADO);
     try {
-      AuthResult user = await auth.createUserWithEmailAndPassword(email: userModel.email, password: userModel.senha);
-      firestore.collection("usuarios").document(user.user.uid).setData(toMap());
-
-      await logService.criarLogSucesso("log_criar_usuario", user.user.uid, {"date": new DateTime.now()});
       
-      setEstadoCriarUsuario(ESTADOCRIARUSUARIO.SUCESSO);
+      bool usuarioCriado = await userService.criarNovoUSuario(userModel.email, userModel.senha, userModel.nome);
+      
+      if(usuarioCriado)
+        setEstadoCriarUsuario(ESTADOCRIARUSUARIO.SUCESSO);
+      else setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA); 
     } catch (e) {
       await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_criar_usuario");
       setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA);
     }
-    setEstadoCriarUsuario(ESTADOCRIARUSUARIO.IDEL);
     
   }
 
+  @action
   login() async {
 
-    FirebaseAuth auth = FirebaseAuth.instance;
     setEstadoLogin(ESTADOLOGIN.CARREGADO);
     try {
-      AuthResult user = await auth.signInWithEmailAndPassword(email: userModel.email, password: userModel.senha);      
-      await logService.criarLogSucesso("log_login_usuario", user.user.uid, {"date": new DateTime.now()});
+      await userService.login(userModel.email, userModel.senha);
+
+      String uid = await userService.retornarUsuarioAtualUID();    
+      await logService.criarLogSucesso("log_login_usuario", uid, {"date": new DateTime.now()});
       setEstadoLogin(ESTADOLOGIN.SUCESSO);
       } catch (e) {
       await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_login_usuario");
       setEstadoLogin(ESTADOLOGIN.FALHA);
     }
-    setEstadoLogin(ESTADOLOGIN.IDEL);
   }
 
   Future redefinirSenha() async {
     
-    FirebaseAuth auth = FirebaseAuth.instance;
-    
     try {
-      await auth.sendPasswordResetEmail(email: userModel.email);  
+      await userService.redefinirSenha(userModel.email);
       await logService.criarLogSucesso("log_recuperar_senha", userModel.email, {"date": new DateTime.now()});
     } catch (e) {
       await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_recuperar_senha");
     }
   }
 
+  @action 
+  verificarSeExisteUsuarioLogado() async {
+    bool usuarioLogado = await userService.verificarSeExiseUsuarioLogado();
+    if(usuarioLogado) {
+      String uid = await userService.retornarUsuarioAtualUID();
+      await logService.criarLogSucesso("log_login_usuario", uid, {"date": new DateTime.now()});
+      
+      setEstadoLogin(ESTADOLOGIN.SUCESSO);
+    } else {
+      setUsuarioLogado(false);
+    }
+    
+  }
+
+  @action
   Future logout() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
+   
     try {
-      FirebaseUser currentUser = await auth.currentUser();
-      await logService.criarLogSucesso("log_logout_user_sucesso", currentUser.uid, {"date": new DateTime.now()});
-      await auth.signOut();
+      String uid = await userService.retornarUsuarioAtualUID();
+      setUsuarioLogado(false);
+      setEstadoLogin(ESTADOLOGIN.IDEL);
+      await userService.logout();
+      await logService.criarLogSucesso("log_logout_user_sucesso", uid, {"date": new DateTime.now()});
     } catch (e) {
       await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_logout");
     }
