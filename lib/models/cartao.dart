@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/services/dateTimeService.dart';
 import 'package:mobx/mobx.dart';
 
@@ -89,6 +90,26 @@ abstract class CartaoModelBase with Store {
       "longitude": longitude, 
       "latitude": latitude
      };
+  }
+
+  Map<String, dynamic> documentSnapshotToMap(DocumentSnapshot document) {
+    var data = document.data;
+    bool validado = DateTimeService().verificarValidadeCartao(data["dataTermino"]);
+    return {
+      "latitude": data["latitude"],
+      "dataTermino": data["dataTermino"],
+      "horaTermino": data["horaTermino"],
+      "nomeProprietario": data["nomeProprietario"],
+      "numeroCartao": data["numeroCartao"],
+      "horaDeInicio": data["horaDeInicio"],
+      "placaVeiculo": data["placaVeiculo"],
+      "nomeCartao": data["nomeCartao"],
+      "cpf": data["cpf"],
+      "dataInicio": data["dataInicio"],
+      "dataInicioCompleta": data["dataInicioCompleta"],
+      "longitude": data["longitude"],
+      "status": validado
+    };
   }
 
   zerarVariaveis() {

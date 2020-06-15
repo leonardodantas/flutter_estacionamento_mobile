@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:estacionamentodigital/models/dto/cartao.dto.dart';
 import 'package:estacionamentodigital/models/map.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
 import 'package:estacionamentodigital/services/mapService.dart';
@@ -26,6 +29,38 @@ abstract class MapControllerBase with Store {
     return _carregamentoinicial;
   }
 
+  @observable 
+  Completer<GoogleMapController> googleMapController = Completer();
+  @action
+  setGoogleMapController(Completer<GoogleMapController> gM) => googleMapController = gM;
+  @computed 
+  Completer<GoogleMapController> get getGoogleMapController {
+    return googleMapController;
+  }
+
+  @observable 
+  List<CartaoDto> cartoesUsuario;
+  @action 
+  setCartoesUsuario(List<CartaoDto> cartoes) => cartoesUsuario = cartoes;
+  @computed 
+  List<CartaoDto> get getCartoesUsuario {
+    return cartoesUsuario;
+  }
+
+  @observable 
+  bool marcacoesUsuarioCarregada;
+  @action 
+  setMarcacoesUsuarioCarregada(bool m) => marcacoesUsuarioCarregada = m;
+  @computed 
+  bool get getMarcacoesUsuarioCarregada {
+    return marcacoesUsuarioCarregada;
+  } 
+
+  Future<void> goToTheLake(CameraPosition _kLake) async {
+    final GoogleMapController controller = await googleMapController.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  }
+
   void localizacaoAtual() async {
     try {
       Position position = await Geolocator()
@@ -47,6 +82,30 @@ abstract class MapControllerBase with Store {
       logService.criarLogSucesso("log_sucesso_marcacoes_map", uid, {"data": new DateTime.now()} );
     } catch (e) {
       logService.criarLogErro(e, uid, "log_erro_marcacoes_map");
+    }
+  }
+
+  Future alterarLocalizacaoAtual(double latitude, double longitude) async {
+    String uid = await mapService.recuperarUidUsuarioAtual();
+    try {
+      CameraPosition cameraPosition = CameraPosition(target: LatLng(latitude, longitude), zoom: 18.0);
+      goToTheLake(cameraPosition);
+      logService.criarLogSucesso("log_sucesso_marcacao_localizacao_cartao", uid, cameraPosition.toMap());
+      return cameraPosition;
+    } catch (e) {
+      logService.criarLogErro(e, uid, "log_erro_marcacao_localizacao_cartao");
+    }
+  }
+   
+
+   recuperarTodasMarcacoesUsuario() async {
+    List<CartaoDto> cartaoDto;
+    setMarcacoesUsuarioCarregada(false);
+    try {
+      cartaoDto = await mapService.recuperarTodasMarcacoesUsuario();
+      setCartoesUsuario(cartaoDto);
+      setMarcacoesUsuarioCarregada(true);
+    } catch (e) {
     }
   }
 }

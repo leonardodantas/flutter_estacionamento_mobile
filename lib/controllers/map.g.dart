@@ -17,6 +17,30 @@ mixin _$MapController on MapControllerBase, Store {
               () => super.estadoCarregamento,
               name: 'MapControllerBase.estadoCarregamento'))
           .value;
+  Computed<Completer<GoogleMapController>> _$getGoogleMapControllerComputed;
+
+  @override
+  Completer<GoogleMapController> get getGoogleMapController =>
+      (_$getGoogleMapControllerComputed ??=
+              Computed<Completer<GoogleMapController>>(
+                  () => super.getGoogleMapController,
+                  name: 'MapControllerBase.getGoogleMapController'))
+          .value;
+  Computed<List<CartaoDto>> _$getCartoesUsuarioComputed;
+
+  @override
+  List<CartaoDto> get getCartoesUsuario => (_$getCartoesUsuarioComputed ??=
+          Computed<List<CartaoDto>>(() => super.getCartoesUsuario,
+              name: 'MapControllerBase.getCartoesUsuario'))
+      .value;
+  Computed<bool> _$getMarcacoesUsuarioCarregadaComputed;
+
+  @override
+  bool get getMarcacoesUsuarioCarregada =>
+      (_$getMarcacoesUsuarioCarregadaComputed ??= Computed<bool>(
+              () => super.getMarcacoesUsuarioCarregada,
+              name: 'MapControllerBase.getMarcacoesUsuarioCarregada'))
+          .value;
 
   final _$_carregamentoinicialAtom =
       Atom(name: 'MapControllerBase._carregamentoinicial');
@@ -35,6 +59,54 @@ mixin _$MapController on MapControllerBase, Store {
     });
   }
 
+  final _$googleMapControllerAtom =
+      Atom(name: 'MapControllerBase.googleMapController');
+
+  @override
+  Completer<GoogleMapController> get googleMapController {
+    _$googleMapControllerAtom.reportRead();
+    return super.googleMapController;
+  }
+
+  @override
+  set googleMapController(Completer<GoogleMapController> value) {
+    _$googleMapControllerAtom.reportWrite(value, super.googleMapController, () {
+      super.googleMapController = value;
+    });
+  }
+
+  final _$cartoesUsuarioAtom = Atom(name: 'MapControllerBase.cartoesUsuario');
+
+  @override
+  List<CartaoDto> get cartoesUsuario {
+    _$cartoesUsuarioAtom.reportRead();
+    return super.cartoesUsuario;
+  }
+
+  @override
+  set cartoesUsuario(List<CartaoDto> value) {
+    _$cartoesUsuarioAtom.reportWrite(value, super.cartoesUsuario, () {
+      super.cartoesUsuario = value;
+    });
+  }
+
+  final _$marcacoesUsuarioCarregadaAtom =
+      Atom(name: 'MapControllerBase.marcacoesUsuarioCarregada');
+
+  @override
+  bool get marcacoesUsuarioCarregada {
+    _$marcacoesUsuarioCarregadaAtom.reportRead();
+    return super.marcacoesUsuarioCarregada;
+  }
+
+  @override
+  set marcacoesUsuarioCarregada(bool value) {
+    _$marcacoesUsuarioCarregadaAtom
+        .reportWrite(value, super.marcacoesUsuarioCarregada, () {
+      super.marcacoesUsuarioCarregada = value;
+    });
+  }
+
   final _$MapControllerBaseActionController =
       ActionController(name: 'MapControllerBase');
 
@@ -50,9 +122,48 @@ mixin _$MapController on MapControllerBase, Store {
   }
 
   @override
+  dynamic setGoogleMapController(Completer<GoogleMapController> gM) {
+    final _$actionInfo = _$MapControllerBaseActionController.startAction(
+        name: 'MapControllerBase.setGoogleMapController');
+    try {
+      return super.setGoogleMapController(gM);
+    } finally {
+      _$MapControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setCartoesUsuario(List<CartaoDto> cartoes) {
+    final _$actionInfo = _$MapControllerBaseActionController.startAction(
+        name: 'MapControllerBase.setCartoesUsuario');
+    try {
+      return super.setCartoesUsuario(cartoes);
+    } finally {
+      _$MapControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setMarcacoesUsuarioCarregada(bool m) {
+    final _$actionInfo = _$MapControllerBaseActionController.startAction(
+        name: 'MapControllerBase.setMarcacoesUsuarioCarregada');
+    try {
+      return super.setMarcacoesUsuarioCarregada(m);
+    } finally {
+      _$MapControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-estadoCarregamento: ${estadoCarregamento}
+googleMapController: ${googleMapController},
+cartoesUsuario: ${cartoesUsuario},
+marcacoesUsuarioCarregada: ${marcacoesUsuarioCarregada},
+estadoCarregamento: ${estadoCarregamento},
+getGoogleMapController: ${getGoogleMapController},
+getCartoesUsuario: ${getCartoesUsuario},
+getMarcacoesUsuarioCarregada: ${getMarcacoesUsuarioCarregada}
     ''';
   }
 }

@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/cartao.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
+import 'package:estacionamentodigital/services/userService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 
 class CartaoService {
 
+  UserService _userService = UserService();
   LogService _logService = new LogService();
   Firestore _firestore;
   FirebaseAuth _auth;
@@ -92,4 +94,34 @@ class CartaoService {
     model.setLongitude(position.longitude);
     return model;
   }
+
+  Future<Map<String, dynamic>> getCartaAtual() async {
+    Map<String, dynamic> documentSnapshotToMap = {};
+    CartaoModel cartaoModel = CartaoModel();
+    try {
+      DocumentSnapshot documentSnapshot;
+      _firestore = Firestore.instance;
+      String uid = await _userService.retornarUsuarioAtualUID();
+      documentSnapshot = await _firestore.collection("cartao").document(uid).get();
+      documentSnapshotToMap = cartaoModel.documentSnapshotToMap(documentSnapshot);
+    } catch (e) {
+      print(e);
+    }
+    return documentSnapshotToMap;
+    
+  }
+
+  Future<QuerySnapshot> getTodosCartoesUsuario() async {
+    QuerySnapshot querySnapshot;
+    try {
+       _firestore = Firestore.instance;
+      String uid = await _userService.retornarUsuarioAtualUID();
+      querySnapshot = await _firestore.collection("usuario").document(uid).collection("cartoes_usuario").getDocuments();    
+      } catch (e) {
+        print(e);
+    }
+    return querySnapshot;
+  }
+
+  
 }

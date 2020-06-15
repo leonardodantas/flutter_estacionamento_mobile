@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/views/widgets/floating_action.dart';
 import 'package:flutter/material.dart';
@@ -14,18 +16,13 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final _mapController = GetIt.I<MapController>();
+  //GoogleMapController googleMapController;
 
-  GoogleMapController googleMapController;
-
-  @override
+   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _mapController.localizacaoAtual();
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
-    googleMapController = controller;
   }
 
   @override
@@ -35,15 +32,13 @@ class _MapPageState extends State<MapPage> {
       body: Observer(builder: (_) {
       return GoogleMap(
         markers: _mapController.mapModel.getLocations,
+        mapType: MapType.normal,
           myLocationButtonEnabled: true,
           zoomControlsEnabled: false,
-          onMapCreated: _onMapCreated,
-          onCameraMove: (data) {
-            print(data);
+          onMapCreated: (GoogleMapController controller) {
+            _mapController.googleMapController.complete(controller);
           },
-          onTap: (position) {
-            print(position);
-          },
+          buildingsEnabled: true,
           initialCameraPosition: CameraPosition(
               target: LatLng(_mapController.mapModel.latitude, _mapController.mapModel.longitude),
               zoom: 18.0));
