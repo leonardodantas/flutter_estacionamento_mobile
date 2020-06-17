@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/cartao.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
+import 'package:estacionamentodigital/services/dateTimeService.dart';
 import 'package:estacionamentodigital/services/userService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -103,7 +104,12 @@ class CartaoService {
       _firestore = Firestore.instance;
       String uid = await _userService.retornarUsuarioAtualUID();
       documentSnapshot = await _firestore.collection("cartao").document(uid).get();
-      documentSnapshotToMap = cartaoModel.documentSnapshotToMap(documentSnapshot);
+      var verificarValidadeCartao = DateTimeService().verificarValidadeCartao(documentSnapshot["dataTermino"]);
+      
+      if(verificarValidadeCartao) {
+        documentSnapshotToMap = cartaoModel.documentSnapshotToMap(documentSnapshot);
+      }
+
     } catch (e) {
       print(e);
     }

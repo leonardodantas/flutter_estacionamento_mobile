@@ -30,7 +30,6 @@ class CartaoDto {
     this.longitude = documentSnapshot["longitude"];
     this.nomeProprietario = documentSnapshot["nomeProprietario"]; 
     this.dataInicioCompleta = converterTimestampParaDate(documentSnapshot["dataInicioCompleta"]);
-    this.endereco = "";
   }
 
   String converterTimestampParaDate(Timestamp timestamp) {

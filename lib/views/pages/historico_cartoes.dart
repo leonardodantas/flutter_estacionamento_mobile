@@ -20,7 +20,6 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
   void initState(){
     super.initState();
     _mapController.recuperarTodasMarcacoesUsuario();
-    print(_mapController.getCartoesUsuario);
   }
 
   @override
@@ -28,7 +27,24 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Meu Histor5ico"), 
-        centerTitle: true, 
+        centerTitle: true,
+        actions: <Widget>[
+           PopupMenuButton<int>(
+             onSelected: (value) {
+               print(value);
+             },
+          itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: Text("Visualizar Todos no Mapa"),
+                ),
+                PopupMenuItem(
+                  value: 2,
+                  child: Text("Limpar Historico"),
+                ),
+              ],
+        ),
+        ], 
         leading: IconButton(
         icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -46,6 +62,9 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
               endereco: _mapController.getCartoesUsuario[index].endereco,
               horaInicio: _mapController.getCartoesUsuario[index].horaInicio,
               horaTermino: _mapController.getCartoesUsuario[index].horaTermino,
+              longitude: _mapController.getCartoesUsuario[index].longitude,
+              latitude: _mapController.getCartoesUsuario[index].latitude,
+              index: index
               );
             else return Container();
             },

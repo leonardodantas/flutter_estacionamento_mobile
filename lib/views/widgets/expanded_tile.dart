@@ -1,7 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:estacionamentodigital/controllers/map.dart';
+import 'package:estacionamentodigital/views/pages/map_historico.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
 
 class ExpandedTile extends StatelessWidget {
   
@@ -12,14 +15,19 @@ class ExpandedTile extends StatelessWidget {
   final String horaInicio;
   final String horaTermino;
   final String endereco;
+  final double latitude;
+  final double longitude;
+  final int index;
 
   ExpandedTile({@required this.placaVeiculo,@required this.nomeProprietario,
      @required this.dataInicioCompleta, @required this.cpf, @required this.horaInicio,
-     @required this.horaTermino, @required this.endereco
+     @required this.horaTermino, @required this.endereco, @required this.latitude,
+     @required this.longitude, @required this.index
      });
+
   @override
   Widget build(BuildContext context) {
-    print(dataInicioCompleta);
+    final _mapController = GetIt.I<MapController>();
     return  ExpansionTileCard(
             leading: CircleAvatar(child: Icon(Icons.location_on)),
             title: Text('$placaVeiculo'),
@@ -58,14 +66,17 @@ class ExpandedTile extends StatelessWidget {
                   FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4.0)),
-                    onPressed: () {},
+                    onPressed: () {
+                      _mapController.getHistoricoEspecifico(latitude, longitude);
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=> MapHistorico(latitude: latitude,longitude: longitude)));
+                    },
                     child: Column(
                       children: <Widget>[
-                        Icon(Icons.star),
+                        Icon(Icons.map),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2.0),
                         ),
-                        Text('Save'),
+                        Text('Google Maps'),
                       ],
                     ),
                   ),
@@ -75,25 +86,11 @@ class ExpandedTile extends StatelessWidget {
                     onPressed: () {},
                     child: Column(
                       children: <Widget>[
-                        Icon(Icons.open_in_browser),
+                        Icon(Icons.delete),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2.0),
                         ),
-                        Text('Open'),
-                      ],
-                    ),
-                  ),
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.0)),
-                    onPressed: () {},
-                    child: Column(
-                      children: <Widget>[
-                        Icon(Icons.share),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),
-                        ),
-                        Text('Share'),
+                        Text('Deletar'),
                       ],
                     ),
                   ),

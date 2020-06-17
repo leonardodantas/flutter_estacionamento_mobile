@@ -26,5 +26,12 @@ abstract class MapModelBase with Store {
     return _markers;
   }
 
-
+  @observable 
+  Set<Marker> marcacaoUsuario;
+  @action 
+  setMarcacaoUsuarioAtual(Set<Marker> m) => marcacaoUsuario = m; 
+  @computed 
+  Set<Marker> get getMarcacaoUsuario {
+    return marcacaoUsuario;
+  }
 }

@@ -78,20 +78,36 @@ class MapService {
         CartaoDto cartao = new CartaoDto(element.data);
         cartoesMap.add(cartao);
       });
+    cartoesMap = await converterLatitudeLongitudeParaEndereco(cartoesMap);  
     return cartoesMap;
   }
 
   Future<List<CartaoDto>> converterLatitudeLongitudeParaEndereco(List<CartaoDto> cartoes) async {
-     cartoes.forEach((cartao) async { 
-     List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(cartao.latitude, cartao.longitude);
-     placemark.forEach((element) {
-      String endereco; 
-      endereco = element.thoroughfare;
-      cartao.endereco = "Leonardo";
-      });
-     });
-    return cartoes ;
-  }
+     List<CartaoDto> novoCartoes = new List<CartaoDto>();
+     for(CartaoDto cartaoDto in cartoes) {
+      List<Placemark> placemarkets = new List<Placemark>();
 
+      placemarkets = await Geolocator().placemarkFromCoordinates(cartaoDto.latitude, cartaoDto.longitude);
+     
+      for(Placemark p in placemarkets) {
+        cartaoDto.endereco = p.thoroughfare + " " + p.administrativeArea + " " + p.postalCode;
+      }
+      novoCartoes.add(cartaoDto);
+     }
+     return novoCartoes;
+     }
+
+  Future<Set<Marker>> recuperarMarcacaoDesejadaUsuario(double latitude, double longitude) async {
+    Set<Marker> markers = {}; 
+    String uid;
+    try {
+      uid = await recuperarUidUsuarioAtual();
+      Marker marker = new Marker(markerId: MarkerId(uid), position:LatLng(latitude, longitude) );     
+      markers.add(marker);
+    } catch (e) {
+      _logService.criarLogErro(e, uid, "log_erro_recuperar_marcacao_desejada_usuario");
+    }
+    return markers;
+  }  
   
 }

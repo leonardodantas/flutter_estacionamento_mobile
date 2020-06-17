@@ -103,9 +103,21 @@ abstract class MapControllerBase with Store {
     setMarcacoesUsuarioCarregada(false);
     try {
       cartaoDto = await mapService.recuperarTodasMarcacoesUsuario();
+      cartaoDto = await mapService.converterLatitudeLongitudeParaEndereco(cartaoDto);
       setCartoesUsuario(cartaoDto);
       setMarcacoesUsuarioCarregada(true);
     } catch (e) {
+    }
+  }
+
+  getHistoricoEspecifico(double latitude, double longitude)async {
+    String uid;
+    try {
+      uid = await mapService.recuperarUidUsuarioAtual();
+      Set<Marker> m = await mapService.recuperarMarcacaoDesejadaUsuario(latitude, longitude);
+      mapModel.setMarcacaoUsuarioAtual(m);
+    } catch (e) {
+      logService.criarLogErro(e, uid, "log_erro_historico_especifico");
     }
   }
 }

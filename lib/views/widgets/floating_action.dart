@@ -45,8 +45,9 @@ class FloatingActionWidget extends StatelessWidget {
           onPressed: () {
            cartaoController.cartaoAtual()
             .then((value){
-              mapController.alterarLocalizacaoAtual(value["latitude"], value["longitude"]);
-              
+              if(value.toString() != "{}")
+                mapController.alterarLocalizacaoAtual(value["latitude"], value["longitude"]);
+              else _showDialodNotCard(context); 
             }).catchError((e){
               _showDialodNotCard(context); 
             });
@@ -115,10 +116,7 @@ class FloatingActionWidget extends StatelessWidget {
             animType: AnimType.TOPSLIDE,
             tittle: 'Atenção',
             desc:
-                'Você não possui nenhum cartão atualmente!',
-            btnCancelOnPress: () {
-              //Navigator.of(context).pop();
-            },
+                'Você não possui nenhum cartão ativo!',
             btnOkOnPress: () {
             })
         .show();
