@@ -26,7 +26,7 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Meu Histor5ico"), 
+        title: Text("Meu Historico"), 
         centerTitle: true,
         actions: <Widget>[
            PopupMenuButton<int>(
@@ -64,7 +64,8 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
               horaTermino: _mapController.getCartoesUsuario[index].horaTermino,
               longitude: _mapController.getCartoesUsuario[index].longitude,
               latitude: _mapController.getCartoesUsuario[index].latitude,
-              index: index
+              index: index,
+              documentId: _mapController.getCartoesUsuario[index].documentID
               );
             else return Container();
             },

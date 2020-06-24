@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CartaoDto {
 
+  String documentID;
   String cv;
   String cpf;
   DateTime data;
@@ -17,7 +18,8 @@ class CartaoDto {
   String endereco;
   int quantidade;
 
-  CartaoDto(Map<String, dynamic> documentSnapshot) {
+  CartaoDto(Map<String, dynamic> documentSnapshot, String documentId) {
+    this.documentID = documentId;
     this.cv = documentSnapshot["CV"]; 
     this.cpf = documentSnapshot["cpf"];
     this.horaInicio = documentSnapshot["horaDeInicio"];

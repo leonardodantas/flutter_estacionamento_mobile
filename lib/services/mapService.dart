@@ -62,6 +62,7 @@ class MapService {
       _firestore = Firestore.instance;
       
       QuerySnapshot documents = await _firestore.collection("usuarios").document(uid).collection("cartoes_usuario").orderBy("dataInicioCompleta").getDocuments();
+      
       cartoesMap = await popularCartaoDto(documents.documents);
       cartoesMap = await converterLatitudeLongitudeParaEndereco(cartoesMap);
 
@@ -75,7 +76,7 @@ class MapService {
   Future<List<CartaoDto>> popularCartaoDto(List<DocumentSnapshot> documents) async {
     List<CartaoDto> cartoesMap = new List<CartaoDto>();
     documents.forEach((element) {
-        CartaoDto cartao = new CartaoDto(element.data);
+        CartaoDto cartao = new CartaoDto(element.data, element.documentID);
         cartoesMap.add(cartao);
       });
     cartoesMap = await converterLatitudeLongitudeParaEndereco(cartoesMap);  

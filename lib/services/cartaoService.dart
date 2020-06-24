@@ -129,5 +129,16 @@ class CartaoService {
     return querySnapshot;
   }
 
+  Future deletarCartao(String documentId, uid) async {
+    try {
+      _firestore = Firestore.instance;
+      _firestore.collection("usuarios").document(uid)
+        .collection("cartoes_usuario")
+          .document(documentId).delete();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   
 }

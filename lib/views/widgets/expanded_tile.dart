@@ -1,5 +1,8 @@
 
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
+import 'package:estacionamentodigital/views/pages/historico_cartoes.dart';
 import 'package:estacionamentodigital/views/pages/map_historico.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +21,18 @@ class ExpandedTile extends StatelessWidget {
   final double latitude;
   final double longitude;
   final int index;
+  final String documentId;
 
   ExpandedTile({@required this.placaVeiculo,@required this.nomeProprietario,
      @required this.dataInicioCompleta, @required this.cpf, @required this.horaInicio,
      @required this.horaTermino, @required this.endereco, @required this.latitude,
-     @required this.longitude, @required this.index
+     @required this.longitude, @required this.index, @required this.documentId
      });
 
   @override
   Widget build(BuildContext context) {
     final _mapController = GetIt.I<MapController>();
+    
     return  ExpansionTileCard(
             leading: CircleAvatar(child: Icon(Icons.location_on)),
             title: Text('$placaVeiculo'),
@@ -83,7 +88,9 @@ class ExpandedTile extends StatelessWidget {
                   FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4.0)),
-                    onPressed: () {},
+                    onPressed: () {
+                      _showDialodDeleteCard(context);
+                    },
                     child: Column(
                       children: <Widget>[
                         Icon(Icons.delete),
@@ -98,5 +105,28 @@ class ExpandedTile extends StatelessWidget {
               ),
             ],
           );
+  }
+
+  void _showDialodDeleteCard(BuildContext context) {
+    final _cartaoController = GetIt.I<CartaoController>();
+    final _mapController = GetIt.I<MapController>();
+    AwesomeDialog(
+            context: context,
+            dialogType: DialogType.WARNING,
+            headerAnimationLoop: false,
+            animType: AnimType.TOPSLIDE,
+            tittle: 'Excluir Localização',
+            desc:
+                'A informação será excluida totalmente!',
+             btnCancelOnPress: () {
+              //Navigator.of(context).pop();
+            },
+            btnOkOnPress: () {
+              _cartaoController.deletarCartao(documentId)
+                .then((value){
+                  _mapController.recuperarTodasMarcacoesUsuario();  
+                });
+            })
+        .show();
   }
 }

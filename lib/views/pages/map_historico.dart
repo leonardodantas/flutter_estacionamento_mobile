@@ -1,5 +1,4 @@
 import 'package:estacionamentodigital/controllers/map.dart';
-import 'package:estacionamentodigital/views/widgets/floating_action.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -18,14 +17,13 @@ class _MapHistoricoState extends State<MapHistorico> {
   @override
   void initState() {
     super.initState();
-    //print(la);
     //_mapController.localizacaoAtual();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionWidget(),
+      appBar: AppBar(title: Text("Localização"), centerTitle: true),
       body: Observer(builder: (_) {
       return GoogleMap(
         markers: _mapController.mapModel.getMarcacaoUsuario,

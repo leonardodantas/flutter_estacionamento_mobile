@@ -44,15 +44,24 @@ abstract class CartaoControllerBase with Store {
 
   Future cartaoAtual() async {
     var cartaAtual;
+    String uid = await _userService.retornarUsuarioAtualUID();
+    
     try {
-      String uid = await _userService.retornarUsuarioAtualUID();
       cartaAtual = await _cartaoService.getCartaAtual();
       return cartaAtual;
     } catch (e) {
-      print(e);
+      await _logService.criarLogErro(e, uid, "log_erro_cartao_atual");
     }
     return cartaAtual;
-  
   }  
+
+  Future deletarCartao(String documentId) async {
+    String uid = await _userService.retornarUsuarioAtualUID();
+    try {
+      await _cartaoService.deletarCartao(documentId, uid);
+    } catch (e) {
+      await _logService.criarLogErro(e, uid, "log_erro_deletar_cartao");
+    }
+  }
 
 }
