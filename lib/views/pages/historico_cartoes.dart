@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/views/widgets/expanded_tile.dart';
@@ -5,6 +6,7 @@ import 'package:estacionamentodigital/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:toast/toast.dart';
 
 class HistoricoCartoes extends StatefulWidget {
   @override
@@ -31,7 +33,17 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
         actions: <Widget>[
            PopupMenuButton<int>(
              onSelected: (value) {
-               print(value);
+               if(_mapController.getCartoesUsuario.length > 0){
+                 if(value == 2) {
+                   _showDialodDeleteHistorico(context);
+                 }
+                 if(value == 1) {
+                   _showDialodDeleteHistorico(context);
+                 }
+                } else {
+                   Toast.show("Historico Vazio", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                }
+               
              },
           itemBuilder: (context) => [
                 PopupMenuItem(
@@ -51,10 +63,10 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
         ),),
         body: Observer(builder: (_){
           if(_mapController.getMarcacoesUsuarioCarregada) {
-            return ListView.builder(
+            if(_mapController.getCartoesUsuario.length > 0){
+              return ListView.builder(
               itemCount: _mapController.getCartoesUsuario.length,
               itemBuilder: (context, index) {
-            if(_mapController.getCartoesUsuario.length > 0)
               return  ExpandedTile(placaVeiculo: _mapController.getCartoesUsuario[index].placaVeiculo, 
               nomeProprietario: _mapController.getCartoesUsuario[index].nomeProprietario, 
               dataInicioCompleta: _mapController.getCartoesUsuario[index].dataInicioCompleta,
@@ -67,13 +79,39 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
               index: index,
               documentId: _mapController.getCartoesUsuario[index].documentID
               );
-            else return Container();
             },
-            );}
+            );
+            } else {
+              return Center(child: Text("Historico Vazio", style: TextStyle(fontSize: 32),));
+            }
+            }
             else {
               return LoadingWidget();
             }
          }),
     );
+  }
+
+  void _showDialodDeleteHistorico(BuildContext context) {
+    AwesomeDialog(
+            context: context,
+            dialogType: DialogType.WARNING,
+            headerAnimationLoop: true,
+            animType: AnimType.TOPSLIDE,
+            tittle: 'Excluir Historico',
+            desc:
+                'Atenção, todo seu historico será excluido! Deseja continuar?',
+             btnCancelOnPress: () {
+              //Navigator.of(context).pop();
+            },
+            btnOkOnPress: () {
+              _cartaoController.deletarCartoes(_mapController.getCartoesUsuario)
+                .then((value){
+                  _mapController.recuperarTodasMarcacoesUsuario();
+                }).catchError((e){
+                  Toast.show("Erro ao deletar cartões", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                });
+            })
+        .show();
   }
 }

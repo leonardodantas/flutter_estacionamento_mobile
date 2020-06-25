@@ -45,21 +45,14 @@ class FloatingActionWidget extends StatelessWidget {
           onPressed: () {
            cartaoController.cartaoAtual()
             .then((value){
+              print("32165432165432165432164");
+              print(value);
               if(value.toString() != "{}")
                 mapController.alterarLocalizacaoAtual(value["latitude"], value["longitude"]);
               else _showDialodNotCard(context); 
             }).catchError((e){
               _showDialodNotCard(context); 
             });
-          }),
-      IconButton(
-          icon: Icon(
-            Icons.monetization_on,
-            size: 45,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            print('Home');
           }),
       IconButton(
           icon: Icon(

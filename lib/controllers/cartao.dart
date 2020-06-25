@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/cartao.dart';
+import 'package:estacionamentodigital/models/dto/cartao.dto.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
 import 'package:estacionamentodigital/services/cartaoService.dart';
 import 'package:estacionamentodigital/services/userService.dart';
@@ -61,6 +62,14 @@ abstract class CartaoControllerBase with Store {
       await _cartaoService.deletarCartao(documentId, uid);
     } catch (e) {
       await _logService.criarLogErro(e, uid, "log_erro_deletar_cartao");
+    }
+  }
+  Future deletarCartoes(List<CartaoDto> cartoes) async {
+    String uid = await _userService.retornarUsuarioAtualUID();
+    try {
+      await _cartaoService.deletarCartoes(cartoes, uid);
+    } catch (e) {
+      await _logService.criarLogErro(e, uid, "log_erro_deletar_lista_cartões");
     }
   }
 

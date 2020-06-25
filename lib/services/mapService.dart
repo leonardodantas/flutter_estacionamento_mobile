@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/dto/cartao.dto.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
+import 'package:estacionamentodigital/services/cartaoService.dart';
 import 'package:estacionamentodigital/services/dateTimeService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,6 +12,7 @@ class MapService {
   Firestore _firestore;
   FirebaseAuth _auth;
   LogService _logService = LogService();
+  CartaoService _cartaoService = CartaoService();
 
   Future<Set<Marker>> marcacoesMapa() async {
     Set<Marker> markets = {};
@@ -107,6 +109,22 @@ class MapService {
       markers.add(marker);
     } catch (e) {
       _logService.criarLogErro(e, uid, "log_erro_recuperar_marcacao_desejada_usuario");
+    }
+    return markers;
+  }
+
+  //CHAMAR ESSA FUNÇÃO NO CONTROLLER E DEPOIS NO MAPA HISTORICO
+  Future<Set<Marker>> recuperarMarcacoesHistoricoUsuario(uid) async {
+    Set<Marker> markers = {};
+    try {
+      QuerySnapshot querySnapshot = await _cartaoService.getTodosCartoesUsuario();
+      
+      querySnapshot.documents.forEach((d) { 
+        Marker marker = new Marker(markerId: MarkerId(uid), position:LatLng(d.data["latitude"], d.data["longitude"]));     
+        markers.add(marker);
+      });
+    } catch (e) {
+      print(e);
     }
     return markers;
   }  

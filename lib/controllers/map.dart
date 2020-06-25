@@ -116,6 +116,8 @@ abstract class MapControllerBase with Store {
       uid = await mapService.recuperarUidUsuarioAtual();
       Set<Marker> m = await mapService.recuperarMarcacaoDesejadaUsuario(latitude, longitude);
       mapModel.setMarcacaoUsuarioAtual(m);
+      mapModel.setLatitude(latitude);
+      mapModel.setLongitude(longitude);
     } catch (e) {
       logService.criarLogErro(e, uid, "log_erro_historico_especifico");
     }

@@ -21,7 +21,7 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     _mapController.localizacaoAtual();
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {

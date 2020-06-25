@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/cartao.dart';
+import 'package:estacionamentodigital/models/dto/cartao.dto.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
 import 'package:estacionamentodigital/services/dateTimeService.dart';
 import 'package:estacionamentodigital/services/userService.dart';
@@ -128,7 +129,7 @@ class CartaoService {
     }
     return querySnapshot;
   }
-
+ 
   Future deletarCartao(String documentId, uid) async {
     try {
       _firestore = Firestore.instance;
@@ -138,6 +139,20 @@ class CartaoService {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future deletarCartoes(List<CartaoDto> cartoes, String uid) async {
+    try {
+       _firestore = Firestore.instance;
+       cartoes.forEach((cartao) { 
+         _firestore.collection("usuarios").document(uid)
+        .collection("cartoes_usuario")
+          .document(cartao.documentID).delete();
+       });
+      
+    } catch (e) {
+      print(e);
+    }   
   }
 
   
