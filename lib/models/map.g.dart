@@ -16,6 +16,13 @@ mixin _$MapModel on MapModelBase, Store {
           Computed<Set<Marker>>(() => super.getLocations,
               name: 'MapModelBase.getLocations'))
       .value;
+  Computed<Set<Marker>> _$getMarcacaoUsuarioComputed;
+
+  @override
+  Set<Marker> get getMarcacaoUsuario => (_$getMarcacaoUsuarioComputed ??=
+          Computed<Set<Marker>>(() => super.getMarcacaoUsuario,
+              name: 'MapModelBase.getMarcacaoUsuario'))
+      .value;
 
   final _$longitudeAtom = Atom(name: 'MapModelBase.longitude');
 
@@ -62,6 +69,21 @@ mixin _$MapModel on MapModelBase, Store {
     });
   }
 
+  final _$marcacaoUsuarioAtom = Atom(name: 'MapModelBase.marcacaoUsuario');
+
+  @override
+  Set<Marker> get marcacaoUsuario {
+    _$marcacaoUsuarioAtom.reportRead();
+    return super.marcacaoUsuario;
+  }
+
+  @override
+  set marcacaoUsuario(Set<Marker> value) {
+    _$marcacaoUsuarioAtom.reportWrite(value, super.marcacaoUsuario, () {
+      super.marcacaoUsuario = value;
+    });
+  }
+
   final _$MapModelBaseActionController = ActionController(name: 'MapModelBase');
 
   @override
@@ -98,11 +120,24 @@ mixin _$MapModel on MapModelBase, Store {
   }
 
   @override
+  dynamic setMarcacaoUsuarioAtual(Set<Marker> m) {
+    final _$actionInfo = _$MapModelBaseActionController.startAction(
+        name: 'MapModelBase.setMarcacaoUsuarioAtual');
+    try {
+      return super.setMarcacaoUsuarioAtual(m);
+    } finally {
+      _$MapModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 longitude: ${longitude},
 latitude: ${latitude},
-getLocations: ${getLocations}
+marcacaoUsuario: ${marcacaoUsuario},
+getLocations: ${getLocations},
+getMarcacaoUsuario: ${getMarcacaoUsuario}
     ''';
   }
 }

@@ -118,8 +118,10 @@ class MapService {
     Set<Marker> markers = {};
     try {
       QuerySnapshot querySnapshot = await _cartaoService.getTodosCartoesUsuario();
-      
-      querySnapshot.documents.forEach((d) { 
+      print(querySnapshot.documents.length);
+      querySnapshot.documents.forEach((d) {
+        print("LEONARDO DNTAS");
+        print(d.data); 
         Marker marker = new Marker(markerId: MarkerId(uid), position:LatLng(d.data["latitude"], d.data["longitude"]));     
         markers.add(marker);
       });

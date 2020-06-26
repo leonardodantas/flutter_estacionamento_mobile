@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
+import 'package:estacionamentodigital/views/pages/map_historico.dart';
 import 'package:estacionamentodigital/views/widgets/expanded_tile.dart';
 import 'package:estacionamentodigital/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
       appBar: AppBar(
         title: Text("Meu Historico"), 
         centerTitle: true,
-        actions: <Widget>[
+        actions:  <Widget>[
            PopupMenuButton<int>(
              onSelected: (value) {
                if(_mapController.getCartoesUsuario.length > 0){
@@ -38,7 +39,15 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
                    _showDialodDeleteHistorico(context);
                  }
                  if(value == 1) {
-                   _showDialodDeleteHistorico(context);
+                   _mapController.getHistoricoMarcacoes()
+                    .then((value){
+                      double latitude = _mapController.mapModel.latitude;
+                      double longitude = _mapController.mapModel.longitude;
+                      print('dasdsadasdasdasdasdasd');
+                      print(value);
+                      print(_mapController.mapModel.getMarcacaoUsuario.length);
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_)=> MapHistorico(latitude: latitude,longitude: longitude)));
+                    });
                  }
                 } else {
                    Toast.show("Historico Vazio", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);

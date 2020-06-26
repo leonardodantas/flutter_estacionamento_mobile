@@ -83,7 +83,7 @@ abstract class MapControllerBase with Store {
     } catch (e) {
       logService.criarLogErro(e, uid, "log_erro_marcacoes_map");
     }
-  }
+  } 
 
   Future alterarLocalizacaoAtual(double latitude, double longitude) async {
     String uid = await mapService.recuperarUidUsuarioAtual();
@@ -120,6 +120,19 @@ abstract class MapControllerBase with Store {
       mapModel.setLongitude(longitude);
     } catch (e) {
       logService.criarLogErro(e, uid, "log_erro_historico_especifico");
+    }
+  }
+
+  Future<bool> getHistoricoMarcacoes() async {
+    String uid;
+    try {
+      uid = await mapService.recuperarUidUsuarioAtual();
+      Set<Marker> m = await mapService.recuperarMarcacoesHistoricoUsuario(uid);
+      mapModel.setMarcacaoUsuarioAtual(m);
+      return true;
+    } catch (e) {
+      logService.criarLogErro(e, uid, "log_erro_recuperar_marcacoes");
+      return false;
     }
   }
 }

@@ -123,7 +123,7 @@ class CartaoService {
     try {
        _firestore = Firestore.instance;
       String uid = await _userService.retornarUsuarioAtualUID();
-      querySnapshot = await _firestore.collection("usuario").document(uid).collection("cartoes_usuario").getDocuments();    
+      querySnapshot = await _firestore.collection("usuarios").document(uid).collection("cartoes_usuario").getDocuments();  
       } catch (e) {
         print(e);
     }
