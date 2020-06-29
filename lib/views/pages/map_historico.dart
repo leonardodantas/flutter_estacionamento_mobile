@@ -36,7 +36,7 @@ class _MapHistoricoState extends State<MapHistorico> {
           buildingsEnabled: true,
           initialCameraPosition: CameraPosition(
               target: LatLng(_mapController.mapModel.latitude, _mapController.mapModel.longitude),
-              zoom: _mapController.mapModel.getMarcacaoUsuario.length <= 1 ? 18.0 : 16.0));
+              zoom: _mapController.mapModel.getMarcacaoUsuario.length <= 1 ? 18.0 : 15.5));
     }));
   }
 }

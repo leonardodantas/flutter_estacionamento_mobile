@@ -85,4 +85,12 @@ class UserService {
       throw new PlatformException(code: '00002');
     }
   }
+
+  Future alterarEmailUsuario(String email, String uid) async {
+    try {
+      auth = FirebaseAuth.instance;
+      
+    } catch (e) {
+    }
+  }
 }

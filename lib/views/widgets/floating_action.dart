@@ -3,6 +3,7 @@ import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
 import 'package:estacionamentodigital/views/pages/compra.dart';
+import 'package:estacionamentodigital/views/pages/configuracoes.dart';
 import 'package:estacionamentodigital/views/pages/historico_cartoes.dart';
 import 'package:estacionamentodigital/views/pages/login.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
@@ -17,12 +18,12 @@ class FloatingActionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FabCircularMenu(fabColor: Colors.white, children: <Widget>[
+    return FabCircularMenu(ringColor: Colors.blue[50], fabColor: Colors.white, children: <Widget>[
       IconButton(
           icon: Icon(
             Icons.exit_to_app,
             size: 45,
-            color: Colors.white,
+            color: Colors.blue,
           ),
           onPressed: (){  
             _showDialodLogout(context);
@@ -31,15 +32,16 @@ class FloatingActionWidget extends StatelessWidget {
           icon: Icon(
             Icons.settings,
             size: 45,
-            color: Colors.white,
+            color: Colors.blue,
           ),
-          onPressed: (){  
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (_)=> ConfiguracoesPage()));  
           }),
       IconButton(
           icon: Icon(
             Icons.storage,
             size: 45,
-            color: Colors.white,
+            color: Colors.blue,
           ),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (_)=> HistoricoCartoes()));
@@ -48,7 +50,7 @@ class FloatingActionWidget extends StatelessWidget {
           icon: Icon(
             Icons.location_on,
             size: 45,
-            color: Colors.white,
+            color: Colors.blue,
           ),
           onPressed: () {
            cartaoController.cartaoAtual()
@@ -64,7 +66,7 @@ class FloatingActionWidget extends StatelessWidget {
           icon: Icon(
             Icons.credit_card,
             size: 45,
-            color: Colors.white,
+            color: Colors.blue,
           ),
           onPressed: () {
             _showDialogInserirCartao(context);

@@ -30,7 +30,7 @@ class _MapPageState extends State<MapPage> {
       body: Observer(builder: (_) {
       return GoogleMap(
         markers: _mapController.mapModel.getLocations,
-        mapType: MapType.normal,
+        mapType: MapType.hybrid,
           myLocationButtonEnabled: true,
           zoomControlsEnabled: false,
           onMapCreated: (GoogleMapController controller) {
