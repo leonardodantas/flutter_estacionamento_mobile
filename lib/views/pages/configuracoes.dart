@@ -1,3 +1,4 @@
+import 'package:estacionamentodigital/views/pages/config/config.maps.dart';
 import 'package:flutter/material.dart';
 
 class ConfiguracoesPage extends StatefulWidget {
@@ -12,20 +13,25 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
       appBar: AppBar(title: Text("Configurações"), centerTitle: true),
       body: ListView(
         children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.all(10),
-            width: double.infinity,
-            height: 80,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.black26),
-            ),
-            child: ListTile(
-              leading: Icon(Icons.map, size: 50,),
-              title: Text("Maps", style: TextStyle(color: Colors.grey),),
-              subtitle: Text("Altere configurações do Google Maps", style: TextStyle(color: Colors.grey),),
+          InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (_)=> ConfigMapsPage()));
+              },
+              child: Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.all(10),
+              width: double.infinity,
+              height: 80,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black26),
+              ),
+              child: ListTile(
+                leading: Icon(Icons.map, size: 50,),
+                title: Text("Maps", style: TextStyle(color: Colors.grey),),
+                subtitle: Text("Altere configurações do Google Maps", style: TextStyle(color: Colors.grey),),
+              ),
             ),
           ),
           Container(

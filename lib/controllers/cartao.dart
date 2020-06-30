@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estacionamentodigital/models/cartao.dart';
 import 'package:estacionamentodigital/models/dto/cartao.dto.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
