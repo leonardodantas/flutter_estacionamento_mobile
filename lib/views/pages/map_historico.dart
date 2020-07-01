@@ -1,3 +1,4 @@
+import 'package:estacionamentodigital/controllers/configMapController.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,11 +14,11 @@ class MapHistorico extends StatefulWidget {
 
 class _MapHistoricoState extends State<MapHistorico> {
   final _mapController = GetIt.I<MapController>();
-
+  final _configMapController = GetIt.I<ConfigMapController>();
   @override
   void initState() {
     super.initState();
-    //_mapController.localizacaoAtual();
+    _configMapController.recuperarConfigMaps();
   }
 
   @override
@@ -27,7 +28,7 @@ class _MapHistoricoState extends State<MapHistorico> {
       body: Observer(builder: (_) {
       return GoogleMap(
         markers: _mapController.mapModel.getMarcacaoUsuario,
-        mapType: MapType.normal,
+        mapType: _configMapController.mapType,
           myLocationButtonEnabled: true,
           zoomControlsEnabled: false,
           onMapCreated: (GoogleMapController controller) {

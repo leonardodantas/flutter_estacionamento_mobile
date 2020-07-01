@@ -1,6 +1,7 @@
 import 'package:animated_splash/animated_splash.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
 import 'package:estacionamentodigital/controllers/configMapController.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
 import 'package:estacionamentodigital/views/pages/login.dart';
@@ -14,6 +15,7 @@ void main(){
   getIt.registerSingleton<UserController>(UserController());
   getIt.registerSingleton<CartaoController>(CartaoController());
   getIt.registerSingleton<ConfigMapController>(ConfigMapController());
+  getIt.registerSingleton<LanguageController>(LanguageController());
   runApp(MyApp());
 
 }

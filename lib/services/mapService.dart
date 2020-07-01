@@ -3,6 +3,7 @@ import 'package:estacionamentodigital/models/dto/cartao.dto.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
 import 'package:estacionamentodigital/services/cartaoService.dart';
 import 'package:estacionamentodigital/services/dateTimeService.dart';
+import 'package:estacionamentodigital/services/languageService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,7 +14,8 @@ class MapService {
   FirebaseAuth _auth;
   LogService _logService = LogService();
   CartaoService _cartaoService = CartaoService();
-
+  LanguageService _languageService = LanguageService();
+  
   Future<Set<Marker>> marcacoesMapa() async {
     Set<Marker> markets = {};
     String uid = await recuperarUidUsuarioAtual();
@@ -118,10 +120,10 @@ class MapService {
     Set<Marker> markers = {};
     try {
       QuerySnapshot querySnapshot = await _cartaoService.getTodosCartoesUsuario();
+      print("AQQUIIIIIIIIIIIIIIIIIIII");
+      await _languageService.carregarIdioma(uid);
       print(querySnapshot.documents.length);
       querySnapshot.documents.forEach((d) {
-        print("LEONARDO DNTAS");
-        print(d.data); 
         Marker marker = new Marker(markerId: MarkerId(uid), position:LatLng(d.data["latitude"], d.data["longitude"]));     
         markers.add(marker);
       });

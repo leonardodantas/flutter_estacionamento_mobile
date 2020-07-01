@@ -19,6 +19,7 @@ class ConfigMapService {
 
   alterarTipoDoMapa(String uid, int newValeuType) async {
     try {
+      _firestore = Firestore.instance;
       await _firestore.collection("usuarios").document(uid).collection("config").document("maps").updateData({"type": newValeuType});
     } catch (e) {
       print(e);

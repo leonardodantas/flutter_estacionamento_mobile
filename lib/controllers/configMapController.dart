@@ -58,11 +58,12 @@ abstract class ConfigMapControllerBase with Store {
     }
   }
 
-  alterarConfigMaps(int valueType) async {
+  Future alterarConfigMaps(int valueType) async {
     String uid;
     try {
       uid = await userService.retornarUsuarioAtualUID();
       _configMapService.alterarTipoDoMapa(uid, valueType);
+      recuperarConfigMaps();
     } catch (e) {
       _logService.criarLogErro(e, uid, "alterar_config_maps");
     }

@@ -1,5 +1,8 @@
+import 'package:estacionamentodigital/controllers/language.dart';
+import 'package:estacionamentodigital/views/pages/config/config.language.dart';
 import 'package:estacionamentodigital/views/pages/config/config.maps.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class ConfiguracoesPage extends StatefulWidget {
   @override
@@ -7,10 +10,12 @@ class ConfiguracoesPage extends StatefulWidget {
 }
 
 class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
+
+  final _languageController = GetIt.I<LanguageController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Configurações"), centerTitle: true),
+      appBar: AppBar(title: Text(_languageController.idioma["configuracoes"]), centerTitle: true),
       body: ListView(
         children: <Widget>[
           InkWell(
@@ -29,12 +34,16 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
               ),
               child: ListTile(
                 leading: Icon(Icons.map, size: 50,),
-                title: Text("Maps", style: TextStyle(color: Colors.grey),),
-                subtitle: Text("Altere configurações do Google Maps", style: TextStyle(color: Colors.grey),),
+                title: Text(_languageController.idioma["mapas"], style: TextStyle(color: Colors.grey),),
+                subtitle: Text(_languageController.idioma["altere_config_google_maps"], style: TextStyle(color: Colors.grey),),
               ),
             ),
           ),
-          Container(
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (_)=> ConfigLanguagePage()));
+            },
+            child: Container(
             alignment: Alignment.center,
             margin: EdgeInsets.all(10),
             width: double.infinity,
@@ -46,9 +55,10 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
             ),
             child: ListTile(
               leading: Icon(Icons.language, size: 50,),
-              title: Text("idioma", style: TextStyle(color: Colors.grey),),
-              subtitle: Text("Altere o idioma", style: TextStyle(color: Colors.grey),),
+              title: Text(_languageController.idioma["idioma"], style: TextStyle(color: Colors.grey),),
+              subtitle: Text(_languageController.idioma["altere_idioma"], style: TextStyle(color: Colors.grey),),
             ),
+          ),
           ),
           Container(
             alignment: Alignment.center,
@@ -62,8 +72,8 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
             ),
             child: ListTile(
               leading: Icon(Icons.account_circle, size: 50,),
-              title: Text("Conta", style: TextStyle(color: Colors.grey),),
-              subtitle: Text("Apagar a sua conta", style: TextStyle(color: Colors.grey),),
+              title: Text(_languageController.idioma["conta"], style: TextStyle(color: Colors.grey),),
+              subtitle: Text(_languageController.idioma["apagar_conta"], style: TextStyle(color: Colors.grey),),
             ),
           )
  

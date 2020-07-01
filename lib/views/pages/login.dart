@@ -1,5 +1,6 @@
  
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
 import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:estacionamentodigital/views/pages/signup.dart';
@@ -18,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   
-
+  final _languageController = GetIt.I<LanguageController>();
   final userController = GetIt.I<UserController>();
   final List<ReactionDisposer> _disposers = [];
 
@@ -49,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // TODO: Handle this case.
           break;
         case ESTADOLOGIN.SUCESSO:
+          _languageController.recuperarIdiomaUsuario();
           Navigator.push(context, MaterialPageRoute(builder: (_)=> InicioPage() ));
           break;
         case ESTADOLOGIN.FALHA:
