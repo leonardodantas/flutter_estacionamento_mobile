@@ -54,6 +54,12 @@
     "erro_deletar_cartoes": "Error deleting cards"  ,
     "deletar": "Delete",
     "excluir_localizacao": "Exclude Location",
-    "mensagem_info_excluida": "The information will be deleted completely!"
+    "mensagem_info_excluida": "The information will be deleted completely!",
+    "apagar_contar": "Delete account",
+    "toast_campo_senha": "Password field is empty",
+    "apagar_sair": "Erase and exit",
+    "mensagem_excluir_contar": "When you delete your account all your data will be permanently deleted!",
+    "sua_senha_aqui": "Your password here",
+    "falha_excluir_conta": "Failed to delete account"
 
 } 

@@ -54,8 +54,13 @@
     "erro_deletar_cartoes": "Erro ao deletar cartões",
     "finalizar_compra": "Finalizar compra",
     "deletar": "Deletar",
-
     "excluir_localizacao": "Excluir Localização",
-    "mensagem_info_excluida": "A informação será excluida totalmente!"
+    "mensagem_info_excluida": "A informação será excluida totalmente!",
+    "apagar_contar": "Apagar conta",
+    "toast_campo_senha": "Campo senha está vazio",
+    "apagar_sair": "Apagar e sair",
+    "mensagem_excluir_contar": "Ao excluir sua conta todos os seus dados serão permanentemente apagados!",
+    "sua_senha_aqui": "Sua senha aqui",
+    "falha_excluir_conta": "Falha ao excluir conta"
 
 }

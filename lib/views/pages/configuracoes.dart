@@ -1,4 +1,5 @@
 import 'package:estacionamentodigital/controllers/language.dart';
+import 'package:estacionamentodigital/views/pages/config/config.account.dart';
 import 'package:estacionamentodigital/views/pages/config/config.language.dart';
 import 'package:estacionamentodigital/views/pages/config/config.maps.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,11 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
             ),
           ),
           ),
-          Container(
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (_)=> ConfigAccountPage()));
+            },
+            child: Container(
             alignment: Alignment.center,
             margin: EdgeInsets.all(10),
             width: double.infinity,
@@ -102,6 +107,7 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
                 return Text(_languageController.idioma["apagar_conta"], style: TextStyle(color: Colors.grey),);
               }),
             ),
+          ),
           )
         ],
       ),

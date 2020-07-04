@@ -54,6 +54,12 @@
     "erro_deletar_cartoes": "Error al eliminar tarjetas",
     "deletar": "Eliminar",    
     "excluir_localizacao": "Excluir ubicación",
-    "mensagem_info_excluida": "¡La información se eliminará por completo!"
+    "mensagem_info_excluida": "¡La información se eliminará por completo!",
+    "apagar_contar": "Eliminar cuenta",
+    "toast_campo_senha": "El campo de contraseña está vacío",
+    "apagar_sair": "Borrar y salir",
+    "mensagem_excluir_contar": "Cuando elimine su cuenta, todos sus datos se eliminarán de forma permanente",
+    "sua_senha_aqui": "Su contraseña aquí",
+    "falha_excluir_conta": "Error al eliminar la cuenta"
  
 } 
