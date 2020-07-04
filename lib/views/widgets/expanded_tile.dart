@@ -1,6 +1,7 @@
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/views/pages/historico_cartoes.dart';
 import 'package:estacionamentodigital/views/pages/map_historico.dart';
@@ -32,7 +33,8 @@ class ExpandedTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _mapController = GetIt.I<MapController>();
-    
+    final _languageController = GetIt.I<LanguageController>();
+
     return  ExpansionTileCard(
             leading: CircleAvatar(child: Icon(Icons.location_on)),
             title: Text('$placaVeiculo'),
@@ -97,7 +99,7 @@ class ExpandedTile extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2.0),
                         ),
-                        Text('Deletar'),
+                        Text(_languageController.idioma["deletar"]),
                       ],
                     ),
                   ),
@@ -110,14 +112,16 @@ class ExpandedTile extends StatelessWidget {
   void _showDialodDeleteCard(BuildContext context) {
     final _cartaoController = GetIt.I<CartaoController>();
     final _mapController = GetIt.I<MapController>();
+    final _languageController = GetIt.I<LanguageController>();
+
     AwesomeDialog(
             context: context,
             dialogType: DialogType.WARNING,
             headerAnimationLoop: false,
             animType: AnimType.TOPSLIDE,
-            tittle: 'Excluir Localização',
+            tittle: _languageController.idioma["excluir_localizacao"],
             desc:
-                'A informação será excluida totalmente!',
+                _languageController.idioma["mensagem_info_excluida"],
              btnCancelOnPress: () {
               //Navigator.of(context).pop();
             },

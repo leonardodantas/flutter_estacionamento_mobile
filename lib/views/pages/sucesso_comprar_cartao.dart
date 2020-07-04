@@ -1,5 +1,7 @@
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class SucessoComprarCartaoPage extends StatefulWidget {
   @override
@@ -7,6 +9,9 @@ class SucessoComprarCartaoPage extends StatefulWidget {
 }
 
 class _SucessoComprarCartaoPageState extends State<SucessoComprarCartaoPage> {
+  
+  final _languageController = GetIt.I<LanguageController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +32,7 @@ class _SucessoComprarCartaoPageState extends State<SucessoComprarCartaoPage> {
                           
                             height: 60,
                             child: Center(
-                              child: Text("Voltar Ao Inicio",
+                              child: Text(_languageController.idioma["botao_voltar_inicio"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {

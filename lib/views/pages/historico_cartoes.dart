@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/views/pages/map_historico.dart';
 import 'package:estacionamentodigital/views/widgets/expanded_tile.dart';
@@ -18,6 +19,7 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
 
   CartaoController _cartaoController = GetIt.I<CartaoController>();
   MapController _mapController = GetIt.I<MapController>();
+  final _languageController = GetIt.I<LanguageController>();
 
   @override
   void initState(){
@@ -29,7 +31,7 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Meu Historico"), 
+        title: Text(_languageController.idioma["meu_historico"]), 
         centerTitle: true,
         actions:  <Widget>[
            PopupMenuButton<int>(
@@ -43,25 +45,22 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
                     .then((value){
                       double latitude = _mapController.mapModel.latitude;
                       double longitude = _mapController.mapModel.longitude;
-                      print('dasdsadasdasdasdasdasd');
-                      print(value);
-                      print(_mapController.mapModel.getMarcacaoUsuario.length);
                       Navigator.of(context).push(MaterialPageRoute(builder: (_)=> MapHistorico(latitude: latitude,longitude: longitude)));
                     });
                  }
                 } else {
-                   Toast.show("Historico Vazio", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                   Toast.show(_languageController.idioma["historico_vazio"], context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
                 }
                
              },
           itemBuilder: (context) => [
                 PopupMenuItem(
                   value: 1,
-                  child: Text("Visualizar Todos no Mapa"),
+                  child: Text(_languageController.idioma["visualizar_todos"]),
                 ),
                 PopupMenuItem(
                   value: 2,
-                  child: Text("Limpar Historico"),
+                  child: Text(_languageController.idioma["limpar_historico"]),
                 ),
               ],
         ),
@@ -91,7 +90,7 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
             },
             );
             } else {
-              return Center(child: Text("Historico Vazio", style: TextStyle(fontSize: 32),));
+              return Center(child: Text(_languageController.idioma["historico_vazio"], style: TextStyle(fontSize: 32),));
             }
             }
             else {
@@ -107,9 +106,9 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
             dialogType: DialogType.WARNING,
             headerAnimationLoop: true,
             animType: AnimType.TOPSLIDE,
-            tittle: 'Excluir Historico',
+            tittle: _languageController.idioma["excluir_historico"],
             desc:
-                'Atenção, todo seu historico será excluido! Deseja continuar?',
+                _languageController.idioma["mensagem_excluir_historico"],
              btnCancelOnPress: () {
               //Navigator.of(context).pop();
             },
@@ -118,9 +117,9 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
                 .then((value){
                   _mapController.recuperarTodasMarcacoesUsuario();
                 }).catchError((e){
-                  Toast.show("Erro ao deletar cartões", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                  Toast.show(_languageController.idioma["erro_deletar_cartoes"], context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
                 });
             })
         .show();
   }
-}
+} 

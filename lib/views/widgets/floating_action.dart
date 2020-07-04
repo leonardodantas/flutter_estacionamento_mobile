@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
 import 'package:estacionamentodigital/views/pages/compra.dart';
@@ -15,6 +16,7 @@ class FloatingActionWidget extends StatelessWidget {
   final userController = GetIt.I<UserController>();
   final cartaoController = GetIt.I<CartaoController>();
   final mapController = GetIt.I<MapController>();
+  final languageController = GetIt.I<LanguageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +82,8 @@ class FloatingActionWidget extends StatelessWidget {
             dialogType: DialogType.WARNING,
             headerAnimationLoop: false,
             animType: AnimType.TOPSLIDE,
-            tittle: 'Atenção',
-            desc:
-                'Um cartão ao ser comprado é automaticamente ativado, certifique-se tambem de estar no local correto de estacionamento do',
+            tittle: languageController.idioma['atencao'],
+            desc: languageController.idioma['modal_comprar_cartao'],
             btnCancelOnPress: () {},
             btnOkOnPress: () {
               Navigator.push(context, MaterialPageRoute(builder: (_)=> CompraCartaoPage()));
@@ -96,9 +97,8 @@ class FloatingActionWidget extends StatelessWidget {
             dialogType: DialogType.INFO,
             headerAnimationLoop: false,
             animType: AnimType.TOPSLIDE,
-            tittle: 'Atenção',
-            desc:
-                'Deseja realizer o logout?',
+            tittle: languageController.idioma['atencao'],
+            desc: languageController.idioma['modal_sair'],
             btnCancelOnPress: () {
               //Navigator.of(context).pop();
             },
@@ -115,9 +115,8 @@ class FloatingActionWidget extends StatelessWidget {
             dialogType: DialogType.INFO,
             headerAnimationLoop: false,
             animType: AnimType.TOPSLIDE,
-            tittle: 'Atenção',
-            desc:
-                'Você não possui nenhum cartão ativo!',
+            tittle: languageController.idioma['atencao'],
+            desc: languageController.idioma['modal_cartao_ativo'],
             btnOkOnPress: () {
             })
         .show();

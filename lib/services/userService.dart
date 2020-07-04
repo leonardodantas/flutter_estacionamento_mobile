@@ -16,13 +16,27 @@ class UserService {
       auth = FirebaseAuth.instance;
       AuthResult user = await auth.createUserWithEmailAndPassword(email: email, password: pass);
       if(user.user.uid != null){
-        firestore.collection("usuarios").document(user.user.uid).setData(toMap(nome,email));
+        await firestore.collection("usuarios").document(user.user.uid).setData(toMap(nome,email));
+        await criarConfiguracoesUsuario(user.user.uid);
         await logService.criarLogSucesso("log_criar_usuario", user.user.uid, {"date": new DateTime.now()});
         return true;
       }
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  criarConfiguracoesUsuario(String uid) async {
+    firestore = Firestore.instance;
+    try {
+      await firestore.collection("usuarios").document(uid).collection("config")
+        .document("idioma").setData({"idioma":1});
+
+      await firestore.collection("usuarios").document(uid).collection("config")
+        .document("maps").setData({"type":1});
+    } catch (e) {
+      await logService.criarLogErro(e, uid, "criar_config_usuarios");
     }
   }
 
@@ -86,11 +100,32 @@ class UserService {
     }
   }
 
-  Future alterarEmailUsuario(String email, String uid) async {
+  Future<bool> deletarUsuario(String pass, String uid) async {
+    auth = FirebaseAuth.instance;
+    String password = pass.trim();
     try {
-      auth = FirebaseAuth.instance;
+      FirebaseUser user = await auth.currentUser();
       
+      var result = await auth.signInWithEmailAndPassword(email: user.email, password: password);
+
+      if(result.user != null){
+        await result.user.delete();
+        await deletarDadosUsuario(uid); 
+        return true;
+      }
+      return true;
     } catch (e) {
+      await logService.criarLogErro(e, uid, "deletar_usuario");
+      return false;
     }
+  }
+
+  Future deletarDadosUsuario(String uid) async {
+    firestore = Firestore.instance;
+    try {
+      await firestore.collection("usuarios").document(uid).delete();
+    } catch (e) {
+      await logService.criarLogErro(e, uid, "deletar_dados_usuario");
+    }    
   }
 }

@@ -1,4 +1,5 @@
 import 'package:estacionamentodigital/controllers/cartao.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:estacionamentodigital/views/pages/inserir_cartao.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +14,13 @@ class DonoVeiculoPage extends StatefulWidget {
 class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
   
   final _cartaoController = GetIt.I<CartaoController>();
+  final _languageController = GetIt.I<LanguageController>();
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Dono do Veiculo"),
+          title: Text(_languageController.idioma["dono_veiculo"]),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -40,8 +42,8 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
-                    labelText: "Nome",
-                    errorText: _cartaoController.cartaoModel.validarNomeProprietario() ? "Minimo de 8" : null,
+                    labelText: _languageController.idioma["nome"],
+                    errorText: _cartaoController.cartaoModel.validarNomeProprietario() ? _languageController.idioma["validacao_minimo_8"] : null,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -63,7 +65,7 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                 child: TextFormField(
                   decoration: new InputDecoration(
                     labelText: "CPF",
-                    errorText: _cartaoController.cartaoModel.validarCpfVeiculo() ? "Minimo de 11" : null,
+                    errorText: _cartaoController.cartaoModel.validarCpfVeiculo() ? _languageController.idioma["validacao_minimo_11"] : null,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -93,7 +95,7 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Cancelar",
+                              child: Text(_languageController.idioma["botao_cancelar"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
@@ -111,7 +113,7 @@ class _DonoVeiculoPageState extends State<DonoVeiculoPage> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Proximo",
+                              child: Text(_languageController.idioma["botao_proximo"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {

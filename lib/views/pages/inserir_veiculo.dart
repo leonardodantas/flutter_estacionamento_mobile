@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:estacionamentodigital/controllers/cartao.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/views/pages/dono_veiculo.dart';
 import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,13 @@ class InserirVeiculoPage extends StatefulWidget {
 class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
 
   final _cartaoController = GetIt.I<CartaoController>();
+  final _languageController = GetIt.I<LanguageController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Identificação do Veiculo"),
+          title: Text( _languageController.idioma["veiculo"]),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -41,8 +43,8 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
-                    labelText: "Placa do Veiculo",
-                    errorText: _cartaoController.cartaoModel.validarPlacaVeiculo() ? "Minimo de 7" : null,
+                    labelText: _languageController.idioma["placa_veiculo"],
+                    errorText: _cartaoController.cartaoModel.validarPlacaVeiculo() ? _languageController.idioma["validacao_minimo_7"] : null,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -72,7 +74,7 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Cancelar",
+                              child: Text(_languageController.idioma["botao_cancelar"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
@@ -90,7 +92,7 @@ class _InserirVeiculoPageState extends State<InserirVeiculoPage> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Proximo",
+                              child: Text(_languageController.idioma["botao_proximo"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {

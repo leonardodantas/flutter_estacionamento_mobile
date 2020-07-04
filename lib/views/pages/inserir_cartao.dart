@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/cartao.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/views/pages/finalizar.dart';
 import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:estacionamentodigital/views/pages/inserir_veiculo.dart';
@@ -15,12 +16,13 @@ class InserirCartao extends StatefulWidget {
 class _InserirCartaoState extends State<InserirCartao> {
   
   final _cartaoController = GetIt.I<CartaoController>();
+  final _languageController = GetIt.I<LanguageController>();
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Inserir Cartão"),
+          title: Text(_languageController.idioma["inserir_cartao"]),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -42,8 +44,8 @@ class _InserirCartaoState extends State<InserirCartao> {
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
-                    errorText: _cartaoController.cartaoModel.validarNumeroCartao() ? "Minimo de 16" : null,
-                    labelText: "Numero",
+                    errorText: _cartaoController.cartaoModel.validarNumeroCartao() ? _languageController.idioma["validacao_minimo_16"] : null,
+                    labelText: _languageController.idioma["numero"],
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -65,7 +67,7 @@ class _InserirCartaoState extends State<InserirCartao> {
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
-                    labelText: "Validade",
+                    labelText: _languageController.idioma["validade"],
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -86,8 +88,8 @@ class _InserirCartaoState extends State<InserirCartao> {
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
-                    errorText: _cartaoController.cartaoModel.validarNomeCartao() ? "Minimo de 8" : null,
-                    labelText: "Nome no Cartão",
+                    errorText: _cartaoController.cartaoModel.validarNomeCartao() ? _languageController.idioma["validacao_minimo_8"] : null,
+                    labelText: _languageController.idioma["nome_cartao"],
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -109,7 +111,7 @@ class _InserirCartaoState extends State<InserirCartao> {
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   decoration: new InputDecoration(
-                    errorText: _cartaoController.cartaoModel.validarCVCartao() ? "Minimo de 3" : null,
+                    errorText: _cartaoController.cartaoModel.validarCVCartao() ? _languageController.idioma["validacao_minimo_3"] : null,
                     labelText: "CV",
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
@@ -140,7 +142,7 @@ class _InserirCartaoState extends State<InserirCartao> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Cancelar",
+                              child: Text(_languageController.idioma["botao_cancelar"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
@@ -158,7 +160,7 @@ class _InserirCartaoState extends State<InserirCartao> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Proximo",
+                              child: Text(_languageController.idioma["botao_proximo"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
@@ -172,8 +174,8 @@ class _InserirCartaoState extends State<InserirCartao> {
                                 dialogType: DialogType.ERROR,
                                 headerAnimationLoop: false,
                                 animType: AnimType.TOPSLIDE,
-                                tittle: 'Atenção',
-                                desc: 'Informações Incompletas, volte para completá-las',
+                                tittle: _languageController.idioma["atencao"],
+                                desc: _languageController.idioma["informacoes_incompletas"],
                                 btnOkOnPress: () {
                                         Navigator.push(context, MaterialPageRoute(builder: (_)=> InserirVeiculoPage()));
                                 })
@@ -186,8 +188,8 @@ class _InserirCartaoState extends State<InserirCartao> {
                                 dialogType: DialogType.ERROR,
                                 headerAnimationLoop: false,
                                 animType: AnimType.TOPSLIDE,
-                                tittle: 'Atenção',
-                                desc: 'Informações Incompletas, volte para completá-las',
+                                tittle: _languageController.idioma["atencao"],
+                                desc: _languageController.idioma["informacoes_incompletas"],
                                 btnCancelOnPress: () {},
                                 btnOkOnPress: () {
                                         Navigator.push(context, MaterialPageRoute(builder: (_)=> InserirVeiculoPage()));

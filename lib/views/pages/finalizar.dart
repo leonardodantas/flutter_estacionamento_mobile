@@ -1,4 +1,5 @@
 import 'package:estacionamentodigital/controllers/cartao.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/views/pages/inicio.dart';
 import 'package:estacionamentodigital/views/pages/sucesso_comprar_cartao.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,13 @@ class FinalizarCompra extends StatefulWidget {
 class _FinalizarCompraState extends State<FinalizarCompra> {
 
   final _cartaoController = GetIt.I<CartaoController>();
+  final _languageController = GetIt.I<LanguageController>();
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Finalizar Compra"),
+        appBar: AppBar( 
+          title: Text(_languageController.idioma["finalizar_compra"]),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -38,9 +40,9 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
                   enabled: false,
-                  initialValue: _cartaoController.cartaoModel.placaVeiculo,
+                  initialValue: _cartaoController.cartaoModel.placaVeiculo.toUpperCase(),
                   decoration: new InputDecoration(
-                    labelText: "Placa Veiculo",
+                    labelText: _languageController.idioma["placa_veiculo"],
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -59,7 +61,7 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                   enabled: false,
                   initialValue: _cartaoController.cartaoModel.nomeCartao,
                   decoration: new InputDecoration(
-                    labelText: "Nome",
+                    labelText: _languageController.idioma["nome"],
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -105,7 +107,7 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Cancelar",
+                              child: Text(_languageController.idioma["botao_cancelar"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {
@@ -124,7 +126,7 @@ class _FinalizarCompraState extends State<FinalizarCompra> {
                         child: Container(
                             height: 60,
                             child: Center(
-                              child: Text("Finalizar",
+                              child: Text(_languageController.idioma["botao_finalizar"],
                                   style: TextStyle(color: Colors.white)),
                             )),
                         onPressed: () {

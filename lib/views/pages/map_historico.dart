@@ -1,4 +1,5 @@
 import 'package:estacionamentodigital/controllers/configMapController.dart';
+import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,8 +14,11 @@ class MapHistorico extends StatefulWidget {
 }
 
 class _MapHistoricoState extends State<MapHistorico> {
+
   final _mapController = GetIt.I<MapController>();
   final _configMapController = GetIt.I<ConfigMapController>();
+  final _languageController = GetIt.I<LanguageController>();
+  
   @override
   void initState() {
     super.initState();
@@ -24,7 +28,7 @@ class _MapHistoricoState extends State<MapHistorico> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Localização"), centerTitle: true),
+      appBar: AppBar(title: Text(_languageController.idioma["localizacao"]), centerTitle: true),
       body: Observer(builder: (_) {
       return GoogleMap(
         markers: _mapController.mapModel.getMarcacaoUsuario,
