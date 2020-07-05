@@ -116,9 +116,12 @@ abstract class UserControllerBase with Store {
     }
   }
 
+  @action
   Future deletarUsuario(String pass) async {
     String uid = await userService.retornarUsuarioAtualUID();
     try {
+      setUsuarioLogado(false);
+      setEstadoLogin(ESTADOLOGIN.IDEL);
       return await userService.deletarUsuario(pass,uid);
     } catch (e) {
       await logService.criarLogErro(e, uid, "controller_deletar_usuario");

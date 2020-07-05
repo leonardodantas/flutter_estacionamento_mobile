@@ -61,6 +61,8 @@
     "apagar_sair": "Apagar e sair",
     "mensagem_excluir_contar": "Ao excluir sua conta todos os seus dados serão permanentemente apagados!",
     "sua_senha_aqui": "Sua senha aqui",
-    "falha_excluir_conta": "Falha ao excluir conta"
+    "falha_excluir_conta": "Falha ao excluir conta",
+    "sair": "Sair",
+    "tela_principal": "Voltar para tela principal"
 
 }

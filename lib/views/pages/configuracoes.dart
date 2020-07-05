@@ -108,6 +108,33 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
               }),
             ),
           ),
+          ),
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(10),
+            width: double.infinity,
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.black26),
+            ),
+            child: ListTile(
+              leading: Icon(Icons.close, size: 50,),
+              title: 
+              Observer(builder: (_){
+                return Text(_languageController.idioma["sair"], style: TextStyle(color: Colors.grey),);
+              }),
+              subtitle: 
+              Observer(builder: (_){
+                return Text(_languageController.idioma["tela_principal"], style: TextStyle(color: Colors.grey),);
+              }),
+            ),
+          ),
           )
         ],
       ),

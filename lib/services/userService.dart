@@ -101,11 +101,14 @@ class UserService {
   }
 
   Future<bool> deletarUsuario(String pass, String uid) async {
-    auth = FirebaseAuth.instance;
     String password = pass.trim();
     try {
+      auth = FirebaseAuth.instance;
       FirebaseUser user = await auth.currentUser();
-      
+      await auth.signOut();
+      print("USEREEEEEE");
+      print(user.email);
+      print(password);
       var result = await auth.signInWithEmailAndPassword(email: user.email, password: password);
 
       if(result.user != null){

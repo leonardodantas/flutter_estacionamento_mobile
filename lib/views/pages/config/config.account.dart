@@ -17,17 +17,24 @@ class _ConfigAccountPageState extends State<ConfigAccountPage> {
   final _userController = GetIt.I<UserController>();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     _userController.userModel.senha = "";
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Apagar Conta"), centerTitle: true),
+      appBar: AppBar(title: Text(_languageController.idioma["apagar_contar"]), centerTitle: true),
       bottomSheet: InkWell(
         onTap: (){
           String pass = _userController.userModel.senha.trim();
           if(pass.isNotEmpty){
             _showDialodDeleteAccount(context, pass);
+          } else {
+            Toast.show(_languageController.idioma["toast_campo_senha"], context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
           }
-          Toast.show("Campo senha está vazio", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
         },
         child: Container(
         width: double.infinity,
@@ -40,7 +47,7 @@ class _ConfigAccountPageState extends State<ConfigAccountPage> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                "Apagar e sair",
+                _languageController.idioma["apagar_sair"],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18.0,
@@ -58,7 +65,7 @@ class _ConfigAccountPageState extends State<ConfigAccountPage> {
             child: Column(
               children: <Widget>[
                 Icon(Icons.sms_failed, color: Colors.grey, size: 80,),
-                Text("Ao excluir sua conta todos os seus dados serão permanentemente apagados!", 
+                Text(_languageController.idioma["mensagem_excluir_contar"], 
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontFamily: "Poppins",),
                 )
@@ -68,8 +75,9 @@ class _ConfigAccountPageState extends State<ConfigAccountPage> {
            Container(
                 padding: EdgeInsets.all(15),
                 child: TextFormField(
+                  obscureText: true,
                   decoration: new InputDecoration(
-                    labelText: "Sua senha aqui",
+                    labelText: _languageController.idioma["sua_senha_aqui"],
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -95,22 +103,21 @@ class _ConfigAccountPageState extends State<ConfigAccountPage> {
             dialogType: DialogType.WARNING,
             headerAnimationLoop: true,
             animType: AnimType.TOPSLIDE,
-            tittle: _languageController.idioma["excluir_historico"],
+            tittle: _languageController.idioma["apagar_contar"],
             desc:
-                _languageController.idioma["mensagem_excluir_historico"],
+                _languageController.idioma["mensagem_excluir_contar"],
              btnCancelOnPress: () {
               //Navigator.of(context).pop();
             },
             btnOkOnPress: () {
               _userController.deletarUsuario(pass)
                 .then((value){
+                  print("VALUE VASDASDSDAD");
+                  print(value);
                   if(value){
-                    _userController.logout()
-                      .then((value){
-                        Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginScreen()));
-                      });
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginScreen()));  
                   }else { 
-                    Toast.show("Falha ao excluir usuario", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
+                    Toast.show(_languageController.idioma["falha_excluir_conta"], context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
                   }
                 })
               ;

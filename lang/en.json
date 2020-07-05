@@ -60,6 +60,8 @@
     "apagar_sair": "Erase and exit",
     "mensagem_excluir_contar": "When you delete your account all your data will be permanently deleted!",
     "sua_senha_aqui": "Your password here",
-    "falha_excluir_conta": "Failed to delete account"
+    "falha_excluir_conta": "Failed to delete account",
+    "sair": "Leave",
+    "tela_principal": "Back to main screen"
 
 } 

@@ -109,6 +109,14 @@ mixin _$UserController on UserControllerBase, Store {
     return _$logoutAsyncAction.run(() => super.logout());
   }
 
+  final _$deletarUsuarioAsyncAction =
+      AsyncAction('UserControllerBase.deletarUsuario');
+
+  @override
+  Future<dynamic> deletarUsuario(String pass) {
+    return _$deletarUsuarioAsyncAction.run(() => super.deletarUsuario(pass));
+  }
+
   final _$UserControllerBaseActionController =
       ActionController(name: 'UserControllerBase');
 

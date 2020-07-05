@@ -60,6 +60,8 @@
     "apagar_sair": "Borrar y salir",
     "mensagem_excluir_contar": "Cuando elimine su cuenta, todos sus datos se eliminarán de forma permanente",
     "sua_senha_aqui": "Su contraseña aquí",
-    "falha_excluir_conta": "Error al eliminar la cuenta"
+    "falha_excluir_conta": "Error al eliminar la cuenta",
+    "sair": "leave",
+    "tela_principal": "Volver a la pantalla principal"
  
 } 
