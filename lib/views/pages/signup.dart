@@ -1,6 +1,7 @@
  
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
+import 'package:estacionamentodigital/views/pages/login.dart';
 import 'package:estacionamentodigital/views/utilities/constants.dart';
 import 'package:estacionamentodigital/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _SignupcreenState extends State<Signupcreen> {
             return LoadingWidget();
           break;
         case ESTADOCRIARUSUARIO.SUCESSO:
-            return Navigator.pop(context);
+            return Navigator.push(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
           break;
         case ESTADOCRIARUSUARIO.FALHA:
             return AwesomeDialog(
@@ -172,7 +173,7 @@ class _SignupcreenState extends State<Signupcreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: RaisedButton(
+      child: RaisedButton( 
         elevation: 5.0,
         onPressed: userController.criarNovoUsuario,
         padding: EdgeInsets.all(15.0),

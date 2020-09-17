@@ -5,7 +5,7 @@ import 'package:mobx/mobx.dart';
 
 part 'user.g.dart';
 
-enum ESTADOLOGIN {IDEL, CARREGADO, SUCESSO, FALHA}
+enum ESTADOLOGIN {IDEL, CARREGADO, SUCESSO, FALHA, USUARIOCRIADOSUCESSO}
 
 enum ESTADOCRIARUSUARIO {IDEL, CARREGADO, SUCESSO, FALHA}
 
@@ -50,11 +50,15 @@ abstract class UserControllerBase with Store {
     setEstadoCriarUsuario(ESTADOCRIARUSUARIO.CARREGADO);
     try {
       
+      
       bool usuarioCriado = await userService.criarNovoUSuario(userModel.email, userModel.senha, userModel.nome);
       
-      if(usuarioCriado)
+      if(usuarioCriado){
         setEstadoCriarUsuario(ESTADOCRIARUSUARIO.SUCESSO);
+        setEstadoLogin(ESTADOLOGIN.USUARIOCRIADOSUCESSO);
+      }
       else setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA); 
+
     } catch (e) {
       await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_criar_usuario");
       setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA);

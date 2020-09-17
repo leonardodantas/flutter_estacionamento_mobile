@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:toast/toast.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final List<ReactionDisposer> _disposers = [];
 
   @override
-  void initState() {
+  void initState() { 
     // TODO: implement initState
     super.initState();
     userController.verificarSeExisteUsuarioLogado();
@@ -67,6 +68,10 @@ class _LoginScreenState extends State<LoginScreen> {
               
             })
         .show();
+          break;
+         case ESTADOLOGIN.USUARIOCRIADOSUCESSO:
+          return   Toast.show("Novo usuario criado com sucesso", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                
           break;
       }
     }));

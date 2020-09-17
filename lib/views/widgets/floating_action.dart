@@ -103,8 +103,7 @@ class FloatingActionWidget extends StatelessWidget {
               //Navigator.of(context).pop();
             },
             btnOkOnPress: () {
-              userController.logout()
-              .then((value) => Navigator.push(context, MaterialPageRoute(builder: (_)=> LoginScreen())));
+              userController.logout().then((value) => Navigator.push(context, MaterialPageRoute(builder: (_)=> LoginScreen())));
             })
         .show();
   }

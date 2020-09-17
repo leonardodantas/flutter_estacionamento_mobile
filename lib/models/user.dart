@@ -32,6 +32,14 @@ abstract class UserModelBase with Store {
     return email;
   }
 
+  @observable 
+  bool logado;
+  setLogado(bool novoLogado) => logado = novoLogado;
+  @computed 
+  bool get getLogado {
+    return logado;
+  }
+
   @observable
   String senha;
   setSenha(String novaSenha) => senha = novaSenha;
