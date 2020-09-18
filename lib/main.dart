@@ -4,6 +4,7 @@ import 'package:estacionamentodigital/controllers/configMapController.dart';
 import 'package:estacionamentodigital/controllers/language.dart';
 import 'package:estacionamentodigital/controllers/map.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
+import 'package:estacionamentodigital/models/validacao.dart';
 import 'package:estacionamentodigital/views/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +17,7 @@ void main(){
   getIt.registerSingleton<CartaoController>(CartaoController());
   getIt.registerSingleton<ConfigMapController>(ConfigMapController());
   getIt.registerSingleton<LanguageController>(LanguageController());
+  getIt.registerSingleton<Validacao>(Validacao());
   runApp(MyApp());
 
 }

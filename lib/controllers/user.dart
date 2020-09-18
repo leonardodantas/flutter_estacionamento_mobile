@@ -1,6 +1,8 @@
 import 'package:estacionamentodigital/models/user.dart';
+import 'package:estacionamentodigital/models/validacao.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
 import 'package:estacionamentodigital/services/userService.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart'; 
 
 part 'user.g.dart';
@@ -16,6 +18,8 @@ abstract class UserControllerBase with Store {
   UserModel userModel = UserModel();  
   LogService logService = LogService();
   UserService userService = new UserService();
+
+  final validacaoClass = GetIt.I<Validacao>();
 
   @observable 
   ESTADOLOGIN estadologin = ESTADOLOGIN.IDEL;
@@ -49,16 +53,22 @@ abstract class UserControllerBase with Store {
 
     setEstadoCriarUsuario(ESTADOCRIARUSUARIO.CARREGADO);
     try {
-      
-      
-      bool usuarioCriado = await userService.criarNovoUSuario(userModel.email, userModel.senha, userModel.nome);
-      
-      if(usuarioCriado){
-        setEstadoCriarUsuario(ESTADOCRIARUSUARIO.SUCESSO);
-        setEstadoLogin(ESTADOLOGIN.USUARIOCRIADOSUCESSO);
-      }
-      else setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA); 
 
+      validacaoClass.validarUsuario(userModel);
+      
+      if(validacaoClass.getObjetoValidado) {
+        bool usuarioCriado = await userService.criarNovoUSuario(userModel);
+      
+        if(usuarioCriado){
+          setEstadoCriarUsuario(ESTADOCRIARUSUARIO.SUCESSO);
+          setEstadoLogin(ESTADOLOGIN.USUARIOCRIADOSUCESSO);
+        }
+        else setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA); 
+      } else {
+        setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA);
+      }
+
+      
     } catch (e) {
       await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_criar_usuario");
       setEstadoCriarUsuario(ESTADOCRIARUSUARIO.FALHA);
@@ -82,14 +92,18 @@ abstract class UserControllerBase with Store {
     }
   }
 
-  Future redefinirSenha() async {
+  Future<bool> redefinirSenha() async {
     
     try {
-      await userService.redefinirSenha(userModel.email);
-      await logService.criarLogSucesso("log_recuperar_senha", userModel.email, {"date": new DateTime.now()});
+      if(userModel.email.isNotEmpty) {
+        await userService.redefinirSenha(userModel.email.trim());
+        await logService.criarLogSucesso("log_recuperar_senha", userModel.email, {"date": new DateTime.now()});
+        return true;
+      }
     } catch (e) {
       await logService.criarLogErro(e, new DateTime.now().toString(), "log_erro_recuperar_senha");
     }
+    return false;
   }
 
   @action 

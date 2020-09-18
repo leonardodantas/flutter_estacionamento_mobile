@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:estacionamentodigital/models/user.dart';
 import 'package:estacionamentodigital/services/LogService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -10,13 +11,15 @@ class UserService {
   Firestore firestore;
   LogService logService = new LogService();
 
-  Future<bool> criarNovoUSuario(String email, String pass, String nome) async {
+  Future<bool> criarNovoUSuario(UserModel userModel) async {
     try {
+
+
       firestore = Firestore.instance;
       auth = FirebaseAuth.instance;
-      AuthResult user = await auth.createUserWithEmailAndPassword(email: email, password: pass);
+      AuthResult user = await auth.createUserWithEmailAndPassword(email: userModel.email, password: userModel.senha);
       if(user.user.uid != null){
-        await firestore.collection("usuarios").document(user.user.uid).setData(toMap(nome,email));
+        await firestore.collection("usuarios").document(user.user.uid).setData(toMap(userModel.nome,userModel.email));
         await criarConfiguracoesUsuario(user.user.uid);
         await logService.criarLogSucesso("log_criar_usuario", user.user.uid, {"date": new DateTime.now()});
         return true;

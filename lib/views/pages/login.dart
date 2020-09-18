@@ -157,19 +157,35 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: (){
           userController.redefinirSenha()
             .then((value){
-          return AwesomeDialog(
-            context: context,
-            dialogType: DialogType.SUCCES,
-            headerAnimationLoop: false,
-            animType: AnimType.TOPSLIDE,
-            tittle: 'Senha Reenviada',
-            desc:
-                'Senha reenviada para o email ${userController.userModel.email}'
+          if(value) {
+            return AwesomeDialog(
+              context: context,
+              dialogType: DialogType.SUCCES,
+              headerAnimationLoop: false,
+              animType: AnimType.TOPSLIDE,
+              tittle: 'Restauração de Senha',
+              desc:
+                'Acesse o email ${userController.userModel.email} para redefinir sua senha'
             ,
             btnOkOnPress: () {
               
             })
         .show();
+          } else {
+            return AwesomeDialog(
+              context: context,
+              dialogType: DialogType.INFO,
+              headerAnimationLoop: false,
+              animType: AnimType.TOPSLIDE,
+              tittle: 'Atenção',
+              desc:
+                'Campo email não pode estar vazio'
+            ,
+            btnOkOnPress: () {
+              
+            })
+        .show();
+          }
             })
             .catchError((e){
                         return AwesomeDialog(

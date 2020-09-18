@@ -1,6 +1,7 @@
  
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:estacionamentodigital/controllers/user.dart';
+import 'package:estacionamentodigital/models/validacao.dart';
 import 'package:estacionamentodigital/views/pages/login.dart';
 import 'package:estacionamentodigital/views/utilities/constants.dart';
 import 'package:estacionamentodigital/views/widgets/loading.dart';
@@ -18,6 +19,8 @@ class _SignupcreenState extends State<Signupcreen> {
 
   final userController = GetIt.I<UserController>();
   final List<ReactionDisposer> _disposers = [];
+
+  final validacao = GetIt.I<Validacao>();
 
   @override
   void dispose() {
@@ -49,7 +52,8 @@ class _SignupcreenState extends State<Signupcreen> {
             animType: AnimType.TOPSLIDE,
             tittle: 'Erro',
             desc:
-                'Erro ao criar usuario, verifique o email e se a senha é menor que 6 caracteres'
+                validacao.getMensagemValidacao.isEmpty ? 'Erro ao criar usuario, verifique o email e se a senha é menor que 6 caracteres' :
+                validacao.getMensagemValidacao.isEmpty
             ,
             btnOkOnPress: () {
               

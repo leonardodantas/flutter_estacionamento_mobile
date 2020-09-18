@@ -25,7 +25,7 @@ abstract class UserModelBase with Store {
   }
 
   @observable 
-  String email;
+  String email = "";
   setEmail(String novoEmail) => email = novoEmail;
   @computed 
   String get getEmail {

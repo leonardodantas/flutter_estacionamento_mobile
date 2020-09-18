@@ -28,6 +28,13 @@ mixin _$UserModel on UserModelBase, Store {
       (_$getEmailComputed ??= Computed<String>(() => super.getEmail,
               name: 'UserModelBase.getEmail'))
           .value;
+  Computed<bool> _$getLogadoComputed;
+
+  @override
+  bool get getLogado =>
+      (_$getLogadoComputed ??= Computed<bool>(() => super.getLogado,
+              name: 'UserModelBase.getLogado'))
+          .value;
 
   final _$uidAtom = Atom(name: 'UserModelBase.uid');
 
@@ -71,6 +78,21 @@ mixin _$UserModel on UserModelBase, Store {
   set email(String value) {
     _$emailAtom.reportWrite(value, super.email, () {
       super.email = value;
+    });
+  }
+
+  final _$logadoAtom = Atom(name: 'UserModelBase.logado');
+
+  @override
+  bool get logado {
+    _$logadoAtom.reportRead();
+    return super.logado;
+  }
+
+  @override
+  set logado(bool value) {
+    _$logadoAtom.reportWrite(value, super.logado, () {
+      super.logado = value;
     });
   }
 
@@ -120,10 +142,12 @@ mixin _$UserModel on UserModelBase, Store {
 uid: ${uid},
 nome: ${nome},
 email: ${email},
+logado: ${logado},
 senha: ${senha},
 getUid: ${getUid},
 getNome: ${getNome},
-getEmail: ${getEmail}
+getEmail: ${getEmail},
+getLogado: ${getLogado}
     ''';
   }
 }
