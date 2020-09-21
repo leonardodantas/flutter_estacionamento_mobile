@@ -57,10 +57,12 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
                 PopupMenuItem(
                   value: 1,
                   child: Text(_languageController.idioma["visualizar_todos"]),
+                  enabled: _mapController.getCartoesUsuario.length > 0,
                 ),
                 PopupMenuItem(
                   value: 2,
                   child: Text(_languageController.idioma["limpar_historico"]),
+                  enabled: _mapController.getCartoesUsuario.length > 0,
                 ),
               ],
         ),
@@ -112,13 +114,18 @@ class _HistoricoCartoesState extends State<HistoricoCartoes> {
              btnCancelOnPress: () {
               //Navigator.of(context).pop();
             },
-            btnOkOnPress: () {
-              _cartaoController.deletarCartoes(_mapController.getCartoesUsuario)
-                .then((value){
-                  _mapController.recuperarTodasMarcacoesUsuario();
-                }).catchError((e){
-                  Toast.show(_languageController.idioma["erro_deletar_cartoes"], context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-                });
+            btnOkOnPress: () { 
+              if(_mapController.getCartoesUsuario.length > 0) {
+                _cartaoController.deletarCartoes(_mapController.getCartoesUsuario)
+                  .then((value){
+                    _mapController.recuperarTodasMarcacoesUsuario();
+                  }).catchError((e){
+                    Toast.show(_languageController.idioma["erro_deletar_cartoes"], context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                  });
+              } else {
+                  Toast.show(_languageController.idioma["historico_vazio"], context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+              }
+              
             })
         .show();
   }

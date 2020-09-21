@@ -53,7 +53,7 @@ class _SignupcreenState extends State<Signupcreen> {
             tittle: 'Erro',
             desc:
                 validacao.getMensagemValidacao.isEmpty ? 'Erro ao criar usuario, verifique o email e se a senha é menor que 6 caracteres' :
-                validacao.getMensagemValidacao.isEmpty
+                validacao.getMensagemValidacao
             ,
             btnOkOnPress: () {
               
